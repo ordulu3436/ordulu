@@ -64,11 +64,11 @@ fun HourlyTimelineScreen(
         val diffMillis = lastMeal.timestampMillis - firstMeal.timestampMillis
         val hours = diffMillis / (1000 * 60 * 60)
         val mins = (diffMillis / (1000 * 60)) % 60
-        "${hours}h ${mins}m"
+        "${hours} sa ${mins} dk"
     } else if (firstMeal != null) {
-        "Single meal logged"
+        "Tek bir öğün kaydedildi"
     } else {
-        "No meals logged yet"
+        "Henüz öğün girilmedi"
     }
 
     LazyColumn(
@@ -78,23 +78,23 @@ fun HourlyTimelineScreen(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 96.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Title & Header
+        // Başlık ve Açıklama
         item {
             Column {
                 Text(
-                    text = "Hourly Breakdown & Chrono Logs",
+                    text = "Saatlik Dağılım & Kronolojik Günlük",
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "${state.displayDate} • Hourly calorie distribution & exact meal timestamps",
+                    text = "${state.displayDate} • Saatlik kalori tüketimi ve tam zaman damgalı besinler",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
 
-        // Eating Window & Hourly Distribution Summary
+        // Beslenme Penceresi Kartı
         item {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -125,7 +125,7 @@ fun HourlyTimelineScreen(
                             Spacer(modifier = Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    text = "Daily Eating Window",
+                                    text = "Günlük Beslenme Penceresi",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                                 )
                                 Text(
@@ -157,7 +157,7 @@ fun HourlyTimelineScreen(
             }
         }
 
-        // 7-Day Trend Chart
+        // 7 Günlük Kalori Trendi Kartı
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -169,7 +169,7 @@ fun HourlyTimelineScreen(
                         Icon(imageVector = Icons.AutoMirrored.Filled.TrendingUp, contentDescription = null, tint = EmeraldPrimary, modifier = Modifier.size(20.dp))
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "7-Day Calorie Trends",
+                            text = "Son 7 Günlük Kalori Trendi",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                         )
                     }
@@ -230,7 +230,7 @@ fun HourlyTimelineScreen(
             }
         }
 
-        // Section: Chronological Hourly Log Feed
+        // Kronolojik Akış Başlığı
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -238,11 +238,11 @@ fun HourlyTimelineScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Hourly Logs Feed (${sortedEntries.size})",
+                    text = "Saatlik Besin Günlüğü (${sortedEntries.size})",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                 )
                 Text(
-                    text = "Chronological",
+                    text = "Kronolojik Sıralı",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -265,7 +265,7 @@ fun HourlyTimelineScreen(
                         Icon(imageVector = Icons.Default.Schedule, contentDescription = null, tint = EmeraldPrimary, modifier = Modifier.size(32.dp))
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "No meals logged for this date.",
+                            text = "Bu tarih için kayıtlı öğün bulunmuyor.",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -297,33 +297,40 @@ private fun ChronologicalLogItemCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Left timestamp circle badge
+            // Sol saat rozeti
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(end = 12.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(42.dp)
+                        .size(44.dp)
                         .clip(CircleShape)
                         .background(EmeraldPrimary.copy(alpha = 0.12f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "${entry.hourOfDay}:00",
+                        text = String.format("%02d:00", entry.hourOfDay),
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 10.sp),
                         color = EmeraldPrimary
                     )
                 }
                 Spacer(modifier = Modifier.height(2.dp))
+                val trMeal = when (entry.mealType.uppercase()) {
+                    "BREAKFAST" -> "Kahvaltı"
+                    "LUNCH" -> "Öğle"
+                    "DINNER" -> "Akşam"
+                    "SNACK" -> "Ara Öğün"
+                    else -> entry.mealType
+                }
                 Text(
-                    text = entry.mealType.lowercase().replaceFirstChar { it.uppercase() },
+                    text = trMeal,
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
-            // Food details
+            // Besin detayları
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = entry.foodName,
@@ -344,19 +351,19 @@ private fun ChronologicalLogItemCard(
                         color = ProteinBlue
                     )
                     Text(
-                        text = "${entry.carbsGrams}g C",
+                        text = "${entry.carbsGrams}g K",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                         color = Color(0xFFF59E0B)
                     )
                     Text(
-                        text = "${entry.fatGrams}g F",
+                        text = "${entry.fatGrams}g Y",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                         color = Color(0xFFEC4899)
                     )
                 }
             }
 
-            // Calories & Delete Action
+            // Kalori & Silme Butonu
             Column(horizontalAlignment = Alignment.End) {
                 Text(
                     text = "${entry.calories} kcal",
@@ -366,7 +373,7 @@ private fun ChronologicalLogItemCard(
                 IconButton(onClick = onDelete, modifier = Modifier.size(32.dp)) {
                     Icon(
                         imageVector = Icons.Default.DeleteOutline,
-                        contentDescription = "Delete",
+                        contentDescription = "Sil",
                         tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
                         modifier = Modifier.size(18.dp)
                     )

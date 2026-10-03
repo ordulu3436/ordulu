@@ -15,11 +15,11 @@ data class NutritionItemDef(
 
 object FoodDatabase {
     val items = listOf(
-        // Poultry & Meats
+        // Et ve Kümes Hayvanları
         NutritionItemDef(
             id = "chicken_breast",
-            canonicalName = "Chicken Breast",
-            keywords = listOf("chicken breast", "chicken", "grilled chicken", "boiled chicken"),
+            canonicalName = "Tavuk Göğsü",
+            keywords = listOf("tavuk göğsü", "tavuk gogsu", "tavuk", "ızgara tavuk", "izgara tavuk", "haşlanmış tavuk", "haslanmis tavuk", "chicken breast", "chicken", "grilled chicken"),
             caloriesPer100g = 165f,
             proteinPer100g = 31f,
             carbsPer100g = 0f,
@@ -30,19 +30,19 @@ object FoodDatabase {
         ),
         NutritionItemDef(
             id = "chicken_thigh",
-            canonicalName = "Chicken Thigh",
-            keywords = listOf("chicken thigh", "chicken leg"),
+            canonicalName = "Tavuk But / Kalça",
+            keywords = listOf("tavuk but", "tavuk kalça", "tavuk baget", "chicken thigh", "chicken leg"),
             caloriesPer100g = 209f,
             proteinPer100g = 26f,
             carbsPer100g = 0f,
             fatPer100g = 10.9f,
-            standardUnit = "piece",
+            standardUnit = "adet",
             standardUnitWeightGrams = 120f
         ),
         NutritionItemDef(
             id = "ground_beef_lean",
-            canonicalName = "Lean Ground Beef (90/10)",
-            keywords = listOf("ground beef", "beef mince", "minced beef", "beef"),
+            canonicalName = "Yağsız Dana Kıyma",
+            keywords = listOf("kıyma", "kiyma", "dana kıyma", "dana eti", "köfte", "kofte", "et", "ground beef", "beef"),
             caloriesPer100g = 217f,
             proteinPer100g = 26.1f,
             carbsPer100g = 0f,
@@ -50,8 +50,8 @@ object FoodDatabase {
         ),
         NutritionItemDef(
             id = "steak_sirloin",
-            canonicalName = "Sirloin Steak",
-            keywords = listOf("sirloin steak", "steak", "beef steak"),
+            canonicalName = "Dana Biftek / Antrikot",
+            keywords = listOf("biftek", "antrikot", "bonfile", "steak", "sirloin"),
             caloriesPer100g = 244f,
             proteinPer100g = 27f,
             carbsPer100g = 0f,
@@ -59,8 +59,8 @@ object FoodDatabase {
         ),
         NutritionItemDef(
             id = "turkey_breast",
-            canonicalName = "Turkey Breast",
-            keywords = listOf("turkey breast", "turkey"),
+            canonicalName = "Hindi Göğsü",
+            keywords = listOf("hindi göğsü", "hindi gogsu", "hindi", "turkey breast", "turkey"),
             caloriesPer100g = 135f,
             proteinPer100g = 30f,
             carbsPer100g = 0f,
@@ -68,30 +68,30 @@ object FoodDatabase {
         ),
         NutritionItemDef(
             id = "salmon",
-            canonicalName = "Atlantic Salmon",
-            keywords = listOf("salmon", "grilled salmon", "baked salmon", "salmon fillet"),
+            canonicalName = "Somon Balığı",
+            keywords = listOf("somon", "somon balığı", "fırında somon", "somon fileto", "salmon"),
             caloriesPer100g = 208f,
             proteinPer100g = 20.4f,
             carbsPer100g = 0f,
             fatPer100g = 13.4f,
-            standardUnit = "fillet",
+            standardUnit = "fileto",
             standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "tuna_canned",
-            canonicalName = "Canned Tuna in Water",
-            keywords = listOf("tuna", "canned tuna", "tuna in water"),
+            canonicalName = "Konserve Ton Balığı",
+            keywords = listOf("ton balığı", "ton baligi", "konserve ton", "tuna"),
             caloriesPer100g = 116f,
             proteinPer100g = 25.5f,
             carbsPer100g = 0f,
             fatPer100g = 0.8f,
-            standardUnit = "can",
+            standardUnit = "kutu",
             standardUnitWeightGrams = 140f
         ),
         NutritionItemDef(
             id = "shrimp",
-            canonicalName = "Cooked Shrimp",
-            keywords = listOf("shrimp", "prawns", "prawn"),
+            canonicalName = "Karides",
+            keywords = listOf("karides", "prawns", "shrimp"),
             caloriesPer100g = 99f,
             proteinPer100g = 24f,
             carbsPer100g = 0.2f,
@@ -99,8 +99,8 @@ object FoodDatabase {
         ),
         NutritionItemDef(
             id = "tofu_firm",
-            canonicalName = "Firm Tofu",
-            keywords = listOf("tofu", "firm tofu", "bean curd"),
+            canonicalName = "Tofu",
+            keywords = listOf("tofu", "soya peyniri"),
             caloriesPer100g = 144f,
             proteinPer100g = 15.6f,
             carbsPer100g = 2.8f,
@@ -108,400 +108,400 @@ object FoodDatabase {
             fiberPer100g = 2.3f
         ),
 
-        // Eggs & Dairy
+        // Yumurta ve Süt Ürünleri
         NutritionItemDef(
             id = "egg_whole",
-            canonicalName = "Whole Egg",
-            keywords = listOf("egg", "eggs", "whole egg", "boiled egg", "fried egg"),
+            canonicalName = "Haşlanmış / Bütün Yumurta",
+            keywords = listOf("yumurta", "haşlanmış yumurta", "haslanmis yumurta", "sahanda yumurta", "kırılmış yumurta", "egg", "eggs"),
             caloriesPer100g = 143f,
             proteinPer100g = 12.6f,
             carbsPer100g = 0.7f,
             fatPer100g = 9.5f,
-            standardUnit = "piece",
-            standardUnitWeightGrams = 50f // 1 medium/large egg ~50g -> ~72 kcal
+            standardUnit = "adet",
+            standardUnitWeightGrams = 50f // 1 orta boy yumurta ~50g -> ~72 kcal
         ),
         NutritionItemDef(
             id = "egg_white",
-            canonicalName = "Egg Whites",
-            keywords = listOf("egg white", "egg whites"),
+            canonicalName = "Yumurta Beyazı / Akı",
+            keywords = listOf("yumurta beyazı", "yumurta akı", "egg white", "egg whites"),
             caloriesPer100g = 52f,
             proteinPer100g = 10.9f,
             carbsPer100g = 0.7f,
             fatPer100g = 0.2f,
-            standardUnit = "piece",
+            standardUnit = "adet",
             standardUnitWeightGrams = 33f
         ),
         NutritionItemDef(
             id = "greek_yogurt_plain",
-            canonicalName = "Greek Yogurt (Nonfat Plain)",
-            keywords = listOf("greek yogurt", "yogurt", "nonfat greek yogurt"),
+            canonicalName = "Süzme Yoğurt",
+            keywords = listOf("yoğurt", "yogurt", "süzme yoğurt", "suzme yogurt", "grek yoğurt", "greek yogurt"),
             caloriesPer100g = 59f,
             proteinPer100g = 10.2f,
             carbsPer100g = 3.6f,
             fatPer100g = 0.4f,
-            standardUnit = "cup",
+            standardUnit = "kase",
             standardUnitWeightGrams = 170f
         ),
         NutritionItemDef(
             id = "milk_whole",
-            canonicalName = "Whole Milk",
-            keywords = listOf("milk", "whole milk", "cow milk"),
+            canonicalName = "Süt",
+            keywords = listOf("süt", "sut", "inek sütü", "tam yağlı süt", "milk"),
             caloriesPer100g = 62f,
             proteinPer100g = 3.2f,
             carbsPer100g = 4.8f,
             fatPer100g = 3.3f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 244f
+            standardUnit = "bardak",
+            standardUnitWeightGrams = 200f
         ),
         NutritionItemDef(
             id = "milk_almond",
-            canonicalName = "Unsweetened Almond Milk",
-            keywords = listOf("almond milk", "almond beverage"),
+            canonicalName = "Badem Sütü",
+            keywords = listOf("badem sütü", "badem sutu", "almond milk"),
             caloriesPer100g = 15f,
             proteinPer100g = 0.6f,
             carbsPer100g = 0.3f,
             fatPer100g = 1.1f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 240f
+            standardUnit = "bardak",
+            standardUnitWeightGrams = 200f
         ),
         NutritionItemDef(
             id = "cheddar_cheese",
-            canonicalName = "Cheddar Cheese",
-            keywords = listOf("cheddar", "cheddar cheese", "cheese"),
+            canonicalName = "Kaşar / Beyaz Peynir",
+            keywords = listOf("kaşar", "kasar", "peynir", "beyaz peynir", "kaşar peyniri", "cheese", "cheddar"),
             caloriesPer100g = 402f,
             proteinPer100g = 25f,
             carbsPer100g = 1.3f,
             fatPer100g = 33f,
-            standardUnit = "slice",
-            standardUnitWeightGrams = 28f
+            standardUnit = "dilim",
+            standardUnitWeightGrams = 30f
         ),
         NutritionItemDef(
             id = "cottage_cheese",
-            canonicalName = "Low Fat Cottage Cheese",
-            keywords = listOf("cottage cheese", "curd cheese"),
+            canonicalName = "Lor Peyniri",
+            keywords = listOf("lor", "lor peyniri", "cottage cheese"),
             caloriesPer100g = 81f,
             proteinPer100g = 11.1f,
             carbsPer100g = 4.7f,
             fatPer100g = 2.3f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 226f
+            standardUnit = "kase",
+            standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "whey_protein",
-            canonicalName = "Whey Protein Powder",
-            keywords = listOf("whey protein", "protein powder", "whey", "protein shake"),
+            canonicalName = "Whey Protein Tozu",
+            keywords = listOf("protein tozu", "whey", "whey protein", "protein shake", "protein tozu shake"),
             caloriesPer100g = 400f,
             proteinPer100g = 80f,
             carbsPer100g = 8f,
             fatPer100g = 4f,
-            standardUnit = "scoop",
-            standardUnitWeightGrams = 30f // 1 scoop = ~120 kcal, 24g protein
+            standardUnit = "ölçek",
+            standardUnitWeightGrams = 30f // 1 ölçek ~120 kcal, 24g protein
         ),
 
-        // Grains, Breads & Carbs
+        // Tahıllar, Ekmek ve Karbonhidratlar
         NutritionItemDef(
             id = "white_rice_cooked",
-            canonicalName = "Cooked White Rice",
-            keywords = listOf("white rice", "rice", "cooked rice", "jasmine rice", "basmati rice"),
+            canonicalName = "Pirinç Pilavı",
+            keywords = listOf("pirinç pilavı", "pirinc pilavi", "pilav", "pirinç", "pirinc", "beyaz pirinç", "white rice", "rice"),
             caloriesPer100g = 130f,
             proteinPer100g = 2.7f,
             carbsPer100g = 28.2f,
             fatPer100g = 0.3f,
             fiberPer100g = 0.4f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 158f // 1 cup cooked rice ~205 kcal
+            standardUnit = "porsiyon",
+            standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "brown_rice_cooked",
-            canonicalName = "Cooked Brown Rice",
-            keywords = listOf("brown rice", "wholegrain rice"),
+            canonicalName = "Esmer Pirinç / Kepekli Pilav",
+            keywords = listOf("esmer pirinç", "kepekli pirinç", "brown rice"),
             caloriesPer100g = 112f,
             proteinPer100g = 2.6f,
             carbsPer100g = 23.5f,
             fatPer100g = 0.9f,
             fiberPer100g = 1.8f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 195f
+            standardUnit = "porsiyon",
+            standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "rolled_oats",
-            canonicalName = "Rolled Oats (Dry)",
-            keywords = listOf("oats", "oatmeal", "rolled oats", "porridge"),
+            canonicalName = "Yulaf Ezmesi",
+            keywords = listOf("yulaf", "yulaf ezmesi", "yulaf lapası", "oats", "oatmeal"),
             caloriesPer100g = 379f,
             proteinPer100g = 13.2f,
             carbsPer100g = 67.7f,
             fatPer100g = 6.5f,
             fiberPer100g = 10.1f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 80f // 1 cup dry rolled oats ~80g ~300 kcal
+            standardUnit = "su bardağı",
+            standardUnitWeightGrams = 80f
         ),
         NutritionItemDef(
             id = "whole_wheat_bread",
-            canonicalName = "Whole Wheat Bread",
-            keywords = listOf("whole wheat bread", "wheat bread", "bread", "toast", "slice of bread"),
+            canonicalName = "Tam Buğday Ekmeği",
+            keywords = listOf("ekmek", "tam buğday ekmeği", "tam bugday ekmegi", "dilim ekmek", "tost", "kepek ekmeği", "bread", "toast"),
             caloriesPer100g = 247f,
             proteinPer100g = 13f,
             carbsPer100g = 41.3f,
             fatPer100g = 3.4f,
             fiberPer100g = 6f,
-            standardUnit = "slice",
-            standardUnitWeightGrams = 32f // 1 slice ~80 kcal
+            standardUnit = "dilim",
+            standardUnitWeightGrams = 32f // 1 dilim ~80 kcal
         ),
         NutritionItemDef(
             id = "pasta_cooked",
-            canonicalName = "Cooked Pasta",
-            keywords = listOf("pasta", "spaghetti", "macaroni", "noodles", "penne"),
+            canonicalName = "Makarna",
+            keywords = listOf("makarna", "spagetti", "erişte", "pasta"),
             caloriesPer100g = 158f,
             proteinPer100g = 5.8f,
             carbsPer100g = 30.9f,
             fatPer100g = 0.9f,
             fiberPer100g = 1.8f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 140f
+            standardUnit = "tabak",
+            standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "potato_baked",
-            canonicalName = "Baked Potato",
-            keywords = listOf("potato", "baked potato", "russet potato"),
+            canonicalName = "Haşlanmış / Fırın Patates",
+            keywords = listOf("patates", "fırın patates", "haşlanmış patates", "patates haşlama", "potato"),
             caloriesPer100g = 93f,
             proteinPer100g = 2.5f,
             carbsPer100g = 21.2f,
             fatPer100g = 0.1f,
             fiberPer100g = 2.2f,
-            standardUnit = "piece",
-            standardUnitWeightGrams = 173f
+            standardUnit = "adet",
+            standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "sweet_potato",
-            canonicalName = "Baked Sweet Potato",
-            keywords = listOf("sweet potato", "baked sweet potato", "yam"),
+            canonicalName = "Tatlı Patates",
+            keywords = listOf("tatlı patates", "sweet potato"),
             caloriesPer100g = 90f,
             proteinPer100g = 2.0f,
             carbsPer100g = 20.7f,
             fatPer100g = 0.2f,
             fiberPer100g = 3.3f,
-            standardUnit = "piece",
+            standardUnit = "adet",
             standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "quinoa_cooked",
-            canonicalName = "Cooked Quinoa",
-            keywords = listOf("quinoa", "cooked quinoa"),
+            canonicalName = "Kinoa",
+            keywords = listOf("kinoa", "quinoa"),
             caloriesPer100g = 120f,
             proteinPer100g = 4.4f,
             carbsPer100g = 21.3f,
             fatPer100g = 1.9f,
             fiberPer100g = 2.8f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 185f
+            standardUnit = "porsiyon",
+            standardUnitWeightGrams = 150f
         ),
 
-        // Fruits
+        // Meyveler
         NutritionItemDef(
             id = "banana",
-            canonicalName = "Banana",
-            keywords = listOf("banana", "bananas"),
+            canonicalName = "Muz",
+            keywords = listOf("muz", "orta boy muz", "banana"),
             caloriesPer100g = 89f,
             proteinPer100g = 1.1f,
             carbsPer100g = 22.8f,
             fatPer100g = 0.3f,
             fiberPer100g = 2.6f,
-            standardUnit = "piece",
-            standardUnitWeightGrams = 118f // 1 medium banana ~105 kcal
+            standardUnit = "adet",
+            standardUnitWeightGrams = 118f // 1 orta muz ~105 kcal
         ),
         NutritionItemDef(
             id = "apple",
-            canonicalName = "Apple",
-            keywords = listOf("apple", "apples", "red apple", "green apple"),
+            canonicalName = "Elma",
+            keywords = listOf("elma", "kırmızı elma", "yeşil elma", "orta boy elma", "apple"),
             caloriesPer100g = 52f,
             proteinPer100g = 0.3f,
             carbsPer100g = 13.8f,
             fatPer100g = 0.2f,
             fiberPer100g = 2.4f,
-            standardUnit = "piece",
-            standardUnitWeightGrams = 182f // 1 medium apple ~95 kcal
+            standardUnit = "adet",
+            standardUnitWeightGrams = 180f // 1 orta boy elma ~95 kcal
         ),
         NutritionItemDef(
             id = "blueberries",
-            canonicalName = "Fresh Blueberries",
-            keywords = listOf("blueberries", "blueberry", "berries"),
+            canonicalName = "Yaban Mersini",
+            keywords = listOf("yaban mersini", "blueberry", "blueberries"),
             caloriesPer100g = 57f,
             proteinPer100g = 0.7f,
             carbsPer100g = 14.5f,
             fatPer100g = 0.3f,
             fiberPer100g = 2.4f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 148f
+            standardUnit = "kase",
+            standardUnitWeightGrams = 140f
         ),
         NutritionItemDef(
             id = "strawberries",
-            canonicalName = "Fresh Strawberries",
-            keywords = listOf("strawberries", "strawberry"),
+            canonicalName = "Çilek",
+            keywords = listOf("çilek", "cilek", "strawberry", "strawberries"),
             caloriesPer100g = 32f,
             proteinPer100g = 0.7f,
             carbsPer100g = 7.7f,
             fatPer100g = 0.3f,
             fiberPer100g = 2.0f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 152f
+            standardUnit = "kase",
+            standardUnitWeightGrams = 150f
         ),
         NutritionItemDef(
             id = "orange",
-            canonicalName = "Orange",
-            keywords = listOf("orange", "oranges"),
+            canonicalName = "Portakal",
+            keywords = listOf("portakal", "orange"),
             caloriesPer100g = 47f,
             proteinPer100g = 0.9f,
             carbsPer100g = 11.8f,
             fatPer100g = 0.1f,
             fiberPer100g = 2.4f,
-            standardUnit = "piece",
-            standardUnitWeightGrams = 131f
+            standardUnit = "adet",
+            standardUnitWeightGrams = 130f
         ),
         NutritionItemDef(
             id = "avocado",
-            canonicalName = "Avocado",
-            keywords = listOf("avocado", "avocados"),
+            canonicalName = "Avokado",
+            keywords = listOf("avokado", "avocado"),
             caloriesPer100g = 160f,
             proteinPer100g = 2.0f,
             carbsPer100g = 8.5f,
             fatPer100g = 14.7f,
             fiberPer100g = 6.7f,
-            standardUnit = "piece",
+            standardUnit = "adet",
             standardUnitWeightGrams = 150f
         ),
 
-        // Vegetables
+        // Sebzeler
         NutritionItemDef(
             id = "broccoli",
-            canonicalName = "Broccoli",
-            keywords = listOf("broccoli", "steamed broccoli"),
+            canonicalName = "Brokoli",
+            keywords = listOf("brokoli", "broccoli"),
             caloriesPer100g = 35f,
             proteinPer100g = 2.4f,
             carbsPer100g = 7.2f,
             fatPer100g = 0.4f,
             fiberPer100g = 3.3f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 91f
+            standardUnit = "kase",
+            standardUnitWeightGrams = 100f
         ),
         NutritionItemDef(
             id = "spinach",
-            canonicalName = "Fresh Spinach",
-            keywords = listOf("spinach", "baby spinach"),
+            canonicalName = "Ispanak",
+            keywords = listOf("ıspanak", "ispanak", "spinach"),
             caloriesPer100g = 23f,
             proteinPer100g = 2.9f,
             carbsPer100g = 3.6f,
             fatPer100g = 0.4f,
             fiberPer100g = 2.2f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 30f
+            standardUnit = "porsiyon",
+            standardUnitWeightGrams = 100f
         ),
         NutritionItemDef(
             id = "salad_mixed",
-            canonicalName = "Mixed Greens Salad",
-            keywords = listOf("salad", "mixed salad", "green salad", "lettuce"),
+            canonicalName = "Mevsim Salata",
+            keywords = listOf("salata", "yeşil salata", "mevsim salata", "çoban salata", "salad"),
             caloriesPer100g = 17f,
             proteinPer100g = 1.4f,
             carbsPer100g = 3.3f,
             fatPer100g = 0.2f,
             fiberPer100g = 1.3f,
-            standardUnit = "bowl",
-            standardUnitWeightGrams = 120f
+            standardUnit = "kase",
+            standardUnitWeightGrams = 150f
         ),
 
-        // Healthy Fats & Nuts
+        // Sağlıklı Yağlar ve Kuruyemişler
         NutritionItemDef(
             id = "peanut_butter",
-            canonicalName = "Peanut Butter",
-            keywords = listOf("peanut butter", "pb"),
+            canonicalName = "Fıstık Ezmesi",
+            keywords = listOf("fıstık ezmesi", "fistik ezmesi", "peanut butter", "pb"),
             caloriesPer100g = 588f,
             proteinPer100g = 25.1f,
             carbsPer100g = 20.0f,
             fatPer100g = 50.4f,
             fiberPer100g = 6.0f,
-            standardUnit = "tbsp",
-            standardUnitWeightGrams = 16f // 1 tbsp ~94 kcal
+            standardUnit = "yemek kaşığı",
+            standardUnitWeightGrams = 16f // 1 yemek kaşığı ~94 kcal
         ),
         NutritionItemDef(
             id = "olive_oil",
-            canonicalName = "Extra Virgin Olive Oil",
-            keywords = listOf("olive oil", "oil", "vegetable oil"),
+            canonicalName = "Zeytinyağı",
+            keywords = listOf("zeytinyağı", "zeytinyagi", "sıvı yağ", "sivi yag", "yağ", "yag", "olive oil"),
             caloriesPer100g = 884f,
             proteinPer100g = 0f,
             carbsPer100g = 0f,
             fatPer100g = 100f,
-            standardUnit = "tbsp",
-            standardUnitWeightGrams = 14f // 1 tbsp ~120 kcal
+            standardUnit = "yemek kaşığı",
+            standardUnitWeightGrams = 14f // 1 yemek kaşığı ~120 kcal
         ),
         NutritionItemDef(
             id = "butter",
-            canonicalName = "Butter",
-            keywords = listOf("butter", "salted butter"),
+            canonicalName = "Tereyağı",
+            keywords = listOf("tereyağı", "tereyagi", "butter"),
             caloriesPer100g = 717f,
             proteinPer100g = 0.9f,
             carbsPer100g = 0.1f,
             fatPer100g = 81f,
-            standardUnit = "tbsp",
-            standardUnitWeightGrams = 14f
+            standardUnit = "tatlı kaşığı",
+            standardUnitWeightGrams = 10f
         ),
         NutritionItemDef(
             id = "almonds",
-            canonicalName = "Almonds",
-            keywords = listOf("almonds", "raw almonds", "roasted almonds"),
+            canonicalName = "Çiğ Badem",
+            keywords = listOf("badem", "çiğ badem", "cig badem", "almonds"),
             caloriesPer100g = 579f,
             proteinPer100g = 21.2f,
             carbsPer100g = 21.6f,
             fatPer100g = 49.9f,
             fiberPer100g = 12.5f,
-            standardUnit = "handful",
+            standardUnit = "avuç",
             standardUnitWeightGrams = 30f
         ),
         NutritionItemDef(
             id = "walnuts",
-            canonicalName = "Walnuts",
-            keywords = listOf("walnuts"),
+            canonicalName = "Ceviz",
+            keywords = listOf("ceviz", "ceviz içi", "walnuts"),
             caloriesPer100g = 654f,
             proteinPer100g = 15.2f,
             carbsPer100g = 13.7f,
             fatPer100g = 65.2f,
             fiberPer100g = 6.7f,
-            standardUnit = "handful",
+            standardUnit = "avuç",
             standardUnitWeightGrams = 30f
         ),
 
-        // Popular Quick Meals & Beverages
+        // Popüler Yiyecekler ve İçecekler
         NutritionItemDef(
             id = "pizza_slice",
-            canonicalName = "Pepperoni / Cheese Pizza Slice",
-            keywords = listOf("pizza", "slice of pizza", "pepperoni pizza", "pizza slice"),
+            canonicalName = "Pizza Dilimi",
+            keywords = listOf("pizza", "dilim pizza", "pizza dilimi", "karışık pizza"),
             caloriesPer100g = 266f,
             proteinPer100g = 11.4f,
             carbsPer100g = 33.3f,
             fatPer100g = 10.1f,
             fiberPer100g = 2.3f,
-            standardUnit = "slice",
-            standardUnitWeightGrams = 107f // 1 slice ~285 kcal
+            standardUnit = "dilim",
+            standardUnitWeightGrams = 107f // 1 dilim ~285 kcal
         ),
         NutritionItemDef(
             id = "burger_beef",
-            canonicalName = "Beef Hamburger",
-            keywords = listOf("burger", "cheeseburger", "hamburger"),
+            canonicalName = "Hamburger",
+            keywords = listOf("hamburger", "burger", "cheeseburger"),
             caloriesPer100g = 250f,
             proteinPer100g = 14f,
             carbsPer100g = 24f,
             fatPer100g = 11f,
-            standardUnit = "piece",
+            standardUnit = "adet",
             standardUnitWeightGrams = 200f // ~500 kcal
         ),
         NutritionItemDef(
             id = "black_coffee",
-            canonicalName = "Black Coffee",
-            keywords = listOf("black coffee", "espresso", "americano"),
+            canonicalName = "Filtre Kahve / Sade Kahve",
+            keywords = listOf("kahve", "filtre kahve", "türk kahvesi", "turk kahvesi", "sade kahve", "espresso", "americano"),
             caloriesPer100g = 2f,
             proteinPer100g = 0.3f,
             carbsPer100g = 0f,
             fatPer100g = 0f,
-            standardUnit = "cup",
-            standardUnitWeightGrams = 240f
+            standardUnit = "fincan",
+            standardUnitWeightGrams = 150f
         )
     )
 
@@ -516,13 +516,13 @@ object FoodDatabase {
             if (def.keywords.any { clean.contains(it) || it.contains(clean) }) return def
         }
         // Word token overlap
-        val tokens = clean.split(Regex("[^a-zA-Z]+")).filter { it.length > 2 }
+        val tokens = clean.split(Regex("[^a-zA-ZçğıöşüÇĞİÖŞÜ]+")).filter { it.length > 2 }
         var bestItem: NutritionItemDef? = null
         var bestScore = 0
         for (item in items) {
             var score = 0
             for (kw in item.keywords) {
-                val kwTokens = kw.split(Regex("[^a-zA-Z]+")).filter { it.length > 2 }
+                val kwTokens = kw.split(Regex("[^a-zA-ZçğıöşüÇĞİÖŞÜ]+")).filter { it.length > 2 }
                 val overlap = tokens.intersect(kwTokens.toSet()).size
                 if (overlap > score) {
                     score = overlap

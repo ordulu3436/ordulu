@@ -72,7 +72,7 @@ fun CalorieGauge(
             val startAngle = 140f
             val totalSweep = 260f
 
-            // Background Track
+            // Arka Plan Çizgisi
             drawArc(
                 color = trackColor,
                 startAngle = startAngle,
@@ -83,7 +83,7 @@ fun CalorieGauge(
                 style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
             )
 
-            // Animated Progress Arc
+            // İlerleme Yayı
             val sweep = min(totalSweep, animatedProgress.value * totalSweep)
             if (sweep > 0f) {
                 drawArc(
@@ -116,12 +116,12 @@ fun CalorieGauge(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "of $targetCalories kcal",
+                text = "Hedef: $targetCalories kcal",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = if (isOverBudget) "+${-remaining} over" else "$remaining left",
+                text = if (isOverBudget) "+${-remaining} kcal aşıldı" else "Kalan: $remaining kcal",
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = if (isOverBudget) Color(0xFFDC2626) else EmeraldPrimary,
                 modifier = Modifier.padding(top = 4.dp)

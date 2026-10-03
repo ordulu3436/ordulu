@@ -22,6 +22,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "NutriLog"
+rootProject.name = "caloree"
 
 include(":app")

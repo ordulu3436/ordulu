@@ -54,10 +54,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.local.UserProfileEntity
-import com.example.ui.theme.CarbsAmber
 import com.example.ui.theme.EmeraldPrimary
-import com.example.ui.theme.FatPink
-import com.example.ui.theme.ProteinBlue
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -84,14 +81,13 @@ fun ProfileSetupScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-    // Dynamic Live Preview Model
     val age = ageText.toIntOrNull() ?: 28
     val height = heightText.toFloatOrNull() ?: 175f
     val weight = weightText.toFloatOrNull() ?: 72f
 
     val previewProfile = UserProfileEntity(
         name = name,
-        gender = gender,
+        gender = if (gender.equals("Kadın", ignoreCase = true) || gender.equals("Female", ignoreCase = true)) "Female" else "Male",
         age = age,
         heightCm = height,
         weightKg = weight,
@@ -106,17 +102,17 @@ fun ProfileSetupScreen(
     fun applyPreset(preset: String) {
         val cals = calorieTargetText.toIntOrNull() ?: liveRecommendedCals
         when (preset) {
-            "Balanced" -> {
+            "Dengeli" -> {
                 proteinTargetText = ((cals * 0.30f) / 4f).roundToInt().toString()
                 carbsTargetText = ((cals * 0.45f) / 4f).roundToInt().toString()
                 fatTargetText = ((cals * 0.25f) / 9f).roundToInt().toString()
             }
-            "High Protein" -> {
+            "Yüksek Protein" -> {
                 proteinTargetText = ((cals * 0.40f) / 4f).roundToInt().toString()
                 carbsTargetText = ((cals * 0.35f) / 4f).roundToInt().toString()
                 fatTargetText = ((cals * 0.25f) / 9f).roundToInt().toString()
             }
-            "Low Carb" -> {
+            "Düşük Karb" -> {
                 proteinTargetText = ((cals * 0.35f) / 4f).roundToInt().toString()
                 carbsTargetText = ((cals * 0.25f) / 4f).roundToInt().toString()
                 fatTargetText = ((cals * 0.40f) / 9f).roundToInt().toString()
@@ -136,23 +132,23 @@ fun ProfileSetupScreen(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 96.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Header
+        // Başlık
         item {
             Column {
                 Text(
-                    text = "User Profile & Nutrition Goals",
+                    text = "Kullanıcı Profili & Beslenme Hedefleri",
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Configure your biometric stats, TDEE energy targets, and macro split",
+                    text = "Biyometrik verilerinizi, TDEE harcama hesabını ve makro hedeflerinizi belirleyin",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
 
-        // Biometrics Card
+        // Biyometrik Bilgiler Kartı
         item {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -172,7 +168,7 @@ fun ProfileSetupScreen(
                         }
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "Personal Biometrics",
+                            text = "Kişisel Biyometrik Bilgiler",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                         )
                     }
@@ -182,7 +178,7 @@ fun ProfileSetupScreen(
                     OutlinedTextField(
                         value = name,
                         onValueChange = { name = it },
-                        label = { Text("Display Name") },
+                        label = { Text("İsim Soyisim") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_profile_name"),
@@ -191,14 +187,18 @@ fun ProfileSetupScreen(
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    // Gender Selector
+                    // Cinsiyet Seçimi
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        listOf("Male", "Female", "Other").forEach { g ->
+                        listOf("Erkek", "Kadın", "Diğer").forEach { g ->
+                            val isSelected = (gender.equals(g, ignoreCase = true) ||
+                                (g == "Erkek" && gender.equals("Male", ignoreCase = true)) ||
+                                (g == "Kadın" && gender.equals("Female", ignoreCase = true)))
+
                             FilterChip(
-                                selected = gender.equals(g, ignoreCase = true),
+                                selected = isSelected,
                                 onClick = { gender = g },
                                 label = { Text(g) },
                                 colors = FilterChipDefaults.filterChipColors(
@@ -212,7 +212,7 @@ fun ProfileSetupScreen(
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    // Age, Height, Weight
+                    // Yaş, Boy, Kilo
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -220,7 +220,7 @@ fun ProfileSetupScreen(
                         OutlinedTextField(
                             value = ageText,
                             onValueChange = { ageText = it },
-                            label = { Text("Age") },
+                            label = { Text("Yaş") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
@@ -230,7 +230,7 @@ fun ProfileSetupScreen(
                         OutlinedTextField(
                             value = heightText,
                             onValueChange = { heightText = it },
-                            label = { Text("Height (cm)") },
+                            label = { Text("Boy (cm)") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
@@ -240,7 +240,7 @@ fun ProfileSetupScreen(
                         OutlinedTextField(
                             value = weightText,
                             onValueChange = { weightText = it },
-                            label = { Text("Weight (kg)") },
+                            label = { Text("Kilo (kg)") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
@@ -252,7 +252,7 @@ fun ProfileSetupScreen(
             }
         }
 
-        // Activity Level & Goal
+        // Aktivite ve Hedef Kartı
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -272,14 +272,14 @@ fun ProfileSetupScreen(
                         }
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "Activity Level & Primary Goal",
+                            text = "Aktivite Seviyesi & Birincil Hedef",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                         )
                     }
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    Text(text = "Physical Activity:", style = MaterialTheme.typography.labelMedium)
+                    Text(text = "Haftalık Fiziksel Aktivite:", style = MaterialTheme.typography.labelMedium)
                     Spacer(modifier = Modifier.height(6.dp))
                     Row(
                         modifier = Modifier
@@ -288,11 +288,11 @@ fun ProfileSetupScreen(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         listOf(
-                            "SEDENTARY" to "Sedentary (Desk job)",
-                            "LIGHT" to "Light (1-3 days/wk)",
-                            "MODERATE" to "Moderate (3-5 days/wk)",
-                            "ACTIVE" to "Active (6-7 days/wk)",
-                            "VERY_ACTIVE" to "Extra Active"
+                            "SEDENTARY" to "Hareketsiz (Masa başı)",
+                            "LIGHT" to "Hafif (Haftada 1-3 gün)",
+                            "MODERATE" to "Orta (Haftada 3-5 gün)",
+                            "ACTIVE" to "Aktif (Haftada 6-7 gün)",
+                            "VERY_ACTIVE" to "Aşırı Aktif (Ağır idman)"
                         ).forEach { (lvl, title) ->
                             FilterChip(
                                 selected = activityLevel.equals(lvl, ignoreCase = true),
@@ -311,7 +311,7 @@ fun ProfileSetupScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    Text(text = "Target Goal:", style = MaterialTheme.typography.labelMedium)
+                    Text(text = "Kilo Hedefi:", style = MaterialTheme.typography.labelMedium)
                     Spacer(modifier = Modifier.height(6.dp))
                     Row(
                         modifier = Modifier
@@ -320,11 +320,11 @@ fun ProfileSetupScreen(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         listOf(
-                            "LOSE_FAST" to "Fat Loss (-500 kcal)",
-                            "LOSE_MILD" to "Mild Loss (-250 kcal)",
-                            "MAINTAIN" to "Maintain Weight",
-                            "GAIN_MILD" to "Lean Bulk (+250 kcal)",
-                            "GAIN_FAST" to "Muscle Gain (+500 kcal)"
+                            "LOSE_FAST" to "Hızlı Yağ Yakımı (-500 kcal)",
+                            "LOSE_MILD" to "Hafif Kilo Verme (-250 kcal)",
+                            "MAINTAIN" to "Kilo Koruma",
+                            "GAIN_MILD" to "Temiz Hacim (+250 kcal)",
+                            "GAIN_FAST" to "Kas & Kilo Alımı (+500 kcal)"
                         ).forEach { (gType, title) ->
                             FilterChip(
                                 selected = goalType.equals(gType, ignoreCase = true),
@@ -344,7 +344,7 @@ fun ProfileSetupScreen(
             }
         }
 
-        // Live Calculated TDEE & BMR Card
+        // Canlı TDEE & BMR Kartı
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -361,7 +361,7 @@ fun ProfileSetupScreen(
                             Icon(imageVector = Icons.Default.Calculate, contentDescription = null, tint = EmeraldPrimary)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Mifflin-St Jeor Energy Science",
+                                text = "Mifflin-St Jeor Enerji Hesabı",
                                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                             )
                         }
@@ -370,11 +370,11 @@ fun ProfileSetupScreen(
                             color = EmeraldPrimary.copy(alpha = 0.15f),
                             modifier = Modifier.clickable {
                                 calorieTargetText = liveRecommendedCals.toString()
-                                applyPreset("Balanced")
+                                applyPreset("Dengeli")
                             }
                         ) {
                             Text(
-                                text = "Use $liveRecommendedCals kcal",
+                                text = "$liveRecommendedCals kcal Uygula",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = EmeraldPrimary,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -388,15 +388,15 @@ fun ProfileSetupScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        MetricItem(title = "BMR (Basal)", value = "$liveBmr kcal", subtitle = "At complete rest")
-                        MetricItem(title = "TDEE (Maintenance)", value = "$liveTdee kcal", subtitle = "Burned with activity")
-                        MetricItem(title = "Recommended", value = "$liveRecommendedCals kcal", subtitle = "To hit $goalType")
+                        MetricItem(title = "BMR (Bazal)", value = "$liveBmr kcal", subtitle = "Tam dinlenmede")
+                        MetricItem(title = "TDEE (Harcama)", value = "$liveTdee kcal", subtitle = "Aktivite dahil")
+                        MetricItem(title = "Önerilen Hedef", value = "$liveRecommendedCals kcal", subtitle = "Hedefe ulaşmak için")
                     }
                 }
             }
         }
 
-        // Macro Splits & Targets Customization
+        // Makro Hedefleri Özelleştirme
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -405,26 +405,26 @@ fun ProfileSetupScreen(
             ) {
                 Column(modifier = Modifier.padding(18.dp)) {
                     Text(
-                        text = "Macro Target Targets (Grams)",
+                        text = "Günlük Makro Hedefleri (Gram)",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Pick a preset ratio or fine-tune daily targets manually",
+                        text = "Hazır oran şablonu seçin veya gramajları manuel ayarlayın",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    // Preset Buttons
+                    // Hazır Şablonlar
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        listOf("Balanced", "High Protein", "Low Carb", "Keto").forEach { preset ->
+                        listOf("Dengeli", "Yüksek Protein", "Düşük Karb", "Keto").forEach { preset ->
                             Surface(
                                 shape = RoundedCornerShape(12.dp),
                                 color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
@@ -444,7 +444,7 @@ fun ProfileSetupScreen(
                     OutlinedTextField(
                         value = calorieTargetText,
                         onValueChange = { calorieTargetText = it },
-                        label = { Text("Daily Calorie Target (kcal)") },
+                        label = { Text("Günlük Kalori Hedefi (kcal)") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -471,7 +471,7 @@ fun ProfileSetupScreen(
                         OutlinedTextField(
                             value = carbsTargetText,
                             onValueChange = { carbsTargetText = it },
-                            label = { Text("Carbs (g)") },
+                            label = { Text("Karb (g)") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
@@ -481,7 +481,7 @@ fun ProfileSetupScreen(
                         OutlinedTextField(
                             value = fatTargetText,
                             onValueChange = { fatTargetText = it },
-                            label = { Text("Fat (g)") },
+                            label = { Text("Yağ (g)") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
@@ -495,7 +495,7 @@ fun ProfileSetupScreen(
                     OutlinedTextField(
                         value = waterTargetText,
                         onValueChange = { waterTargetText = it },
-                        label = { Text("Daily Water Goal (ml)") },
+                        label = { Text("Günlük Su Hedefi (ml)") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -506,12 +506,12 @@ fun ProfileSetupScreen(
             }
         }
 
-        // Save Button
+        // Kaydet Butonu
         item {
             Button(
                 onClick = {
                     val updated = currentProfile.copy(
-                        name = name.ifBlank { "Alex" },
+                        name = name.ifBlank { "Kullanıcı" },
                         gender = gender,
                         age = age,
                         heightCm = height,
@@ -527,7 +527,7 @@ fun ProfileSetupScreen(
                     )
                     onSaveProfile(updated)
                     coroutineScope.launch {
-                        snackbarHostState.showSnackbar("Profile & nutrition targets updated successfully!")
+                        snackbarHostState.showSnackbar("Profil ve beslenme hedefleri başarıyla güncellendi!")
                     }
                 },
                 modifier = Modifier
@@ -540,7 +540,7 @@ fun ProfileSetupScreen(
                 Icon(imageVector = Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Save Profile & Update Targets",
+                    text = "Profili Kaydet & Hedefleri Güncelle",
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                 )
             }

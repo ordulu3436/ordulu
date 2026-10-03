@@ -22,8 +22,8 @@ data class ParsedNutritionResult(
     val totalFat: Float,
     val totalFiber: Float,
     val items: List<ParsedFoodItem>,
-    val engineUsed: String, // "Gemini AI" or "NutriLog Smart Rule Engine"
-    val confidence: String // "High", "Medium", "Estimated"
+    val engineUsed: String,
+    val confidence: String
 )
 
 class NutritionParserEngine(
@@ -36,14 +36,14 @@ class NutritionParserEngine(
             return emptyResult(trimmed)
         }
 
-        // 1. Try Gemini AI if available
+        // 1. Gemini AI ile parse etmeyi dene (Eğer API anahtarı yapılandırılmışsa)
         try {
             val aiResponse = geminiService.parseNutritionText(trimmed)
             if (aiResponse != null && aiResponse.totalCalories > 0) {
                 return ParsedNutritionResult(
                     rawInput = trimmed,
                     suggestedName = aiResponse.summaryTitle,
-                    portionDescription = if (aiResponse.items.size == 1) aiResponse.items.first().portionDescription else "${aiResponse.items.size} items",
+                    portionDescription = if (aiResponse.items.size == 1) aiResponse.items.first().portionDescription else "${aiResponse.items.size} besin",
                     totalCalories = aiResponse.totalCalories,
                     totalProtein = aiResponse.totalProtein,
                     totalCarbs = aiResponse.totalCarbs,
@@ -60,22 +60,22 @@ class NutritionParserEngine(
                             fiberGrams = it.fiberGrams
                         )
                     },
-                    engineUsed = "Gemini 3.5 Flash AI",
-                    confidence = "High (AI Verified)"
+                    engineUsed = "Gemini 3.5 Flash Yapay Zeka",
+                    confidence = "Yüksek (Yapay Zeka Doğrulamalı)"
                 )
             }
         } catch (_: Exception) {
-            // Fallback to local rule engine
+            // Hata durumunda yerel kural motoruna geç
         }
 
-        // 2. High-precision offline rule engine fallback
+        // 2. Yüksek hassasiyetli Türkçe destekli çevrimdışı kural motoru
         return parseWithRuleEngine(trimmed)
     }
 
     fun parseWithRuleEngine(input: String): ParsedNutritionResult {
         val trimmed = input.trim()
-        // Split composite inputs: "200g chicken breast and 1 cup rice + 1 tbsp olive oil"
-        val delimiters = Regex("\\s+(?:and|with|\\+|&|plus)\\s+|[,;]\\s*", RegexOption.IGNORE_CASE)
+        // Bileşik girdileri böl: "200g tavuk göğsü ve 1 porsiyon pirinç pilavı + 1 yemek kaşığı zeytinyağı"
+        val delimiters = Regex("\\s+(?:ve|ile|yanında|yaninda|artı|arti|and|with|\\+|&|plus)\\s+|[,;]\\s*", RegexOption.IGNORE_CASE)
         val rawSegments = trimmed.split(delimiters).map { it.trim() }.filter { it.isNotBlank() }
 
         val parsedItems = mutableListOf<ParsedFoodItem>()
@@ -88,18 +88,16 @@ class NutritionParserEngine(
         }
 
         if (parsedItems.isEmpty()) {
-            // Attempt whole string fallback
             val single = parseSingleSegment(trimmed)
             if (single != null) {
                 parsedItems.add(single)
             } else {
-                // Generic heuristic: extract any number as calorie or estimate standard portion
                 val numMatch = Regex("(\\d+)").find(trimmed)
                 val detectedCalories = numMatch?.value?.toIntOrNull()?.coerceIn(50, 2000) ?: 200
                 return ParsedNutritionResult(
                     rawInput = trimmed,
                     suggestedName = trimmed.replaceFirstChar { it.uppercase() },
-                    portionDescription = "1 standard serving",
+                    portionDescription = "1 standart porsiyon",
                     totalCalories = detectedCalories,
                     totalProtein = (detectedCalories * 0.15f / 4f).roundTo1Decimal(),
                     totalCarbs = (detectedCalories * 0.55f / 4f).roundTo1Decimal(),
@@ -108,7 +106,7 @@ class NutritionParserEngine(
                     items = listOf(
                         ParsedFoodItem(
                             foodName = trimmed.replaceFirstChar { it.uppercase() },
-                            portionDescription = "1 standard serving",
+                            portionDescription = "1 standart porsiyon",
                             calories = detectedCalories,
                             proteinGrams = (detectedCalories * 0.15f / 4f).roundTo1Decimal(),
                             carbsGrams = (detectedCalories * 0.55f / 4f).roundTo1Decimal(),
@@ -116,8 +114,8 @@ class NutritionParserEngine(
                             fiberGrams = 2f
                         )
                     ),
-                    engineUsed = "NutriLog Smart Rule Engine",
-                    confidence = "Estimated"
+                    engineUsed = "caloree Akıllı Kural Motoru",
+                    confidence = "Tahmini"
                 )
             }
         }
@@ -137,7 +135,7 @@ class NutritionParserEngine(
         val portionSummary = if (parsedItems.size == 1) {
             parsedItems.first().portionDescription
         } else {
-            "${parsedItems.size} items combined"
+            "${parsedItems.size} besin karışımı"
         }
 
         return ParsedNutritionResult(
@@ -150,32 +148,30 @@ class NutritionParserEngine(
             totalFat = totalFat,
             totalFiber = totalFiber,
             items = parsedItems,
-            engineUsed = "NutriLog Smart Rule Engine",
-            confidence = "High (Rule Engine)"
+            engineUsed = "caloree Akıllı Kural Motoru",
+            confidence = "Yüksek (Kural Motoru)"
         )
     }
 
     private fun parseSingleSegment(segment: String): ParsedFoodItem? {
         var text = segment.lowercase()
 
-        // Normalize verbal numbers
+        // Türkçe ve İngilizce sayı kelimelerini normalleştir
         text = text
-            .replace(Regex("\\b(a|an)\\b"), "1")
-            .replace(Regex("\\bone\\b"), "1")
-            .replace(Regex("\\btwo\\b"), "2")
-            .replace(Regex("\\bthree\\b"), "3")
-            .replace(Regex("\\bfour\\b"), "4")
-            .replace(Regex("\\bfive\\b"), "5")
-            .replace(Regex("\\bhalf\\b"), "0.5")
-            .replace(Regex("\\bquarter\\b"), "0.25")
+            .replace(Regex("\\b(bir|a|an|one)\\b"), "1")
+            .replace(Regex("\\b(iki|two)\\b"), "2")
+            .replace(Regex("\\b(üç|uc|three)\\b"), "3")
+            .replace(Regex("\\b(dört|dort|four)\\b"), "4")
+            .replace(Regex("\\b(beş|bes|five)\\b"), "5")
+            .replace(Regex("\\b(yarım|yarim|half)\\b"), "0.5")
+            .replace(Regex("\\b(çeyrek|ceyrek|quarter)\\b"), "0.25")
             .replace("1/2", "0.5")
             .replace("1/4", "0.25")
             .replace("3/4", "0.75")
 
-        // Regex patterns for quantity and units
-        // Examples: "200g chicken", "200 grams chicken", "2 slices bread", "1.5 cup rice", "1 scoop whey"
+        // Türkçe & İngilizce ölçü birimleri regex deseni
         val quantityPattern = Regex(
-            "(\\d+(?:\\.\\d+)?)\\s*(g|grams|gram|kg|oz|ounces|ounce|lbs?|pounds?|ml|cups?|tbsps?|tablespoons?|tsps?|teaspoons?|slices?|pieces?|eggs?|fillets?|scoops?|cans?|bowls?|handfuls?)?\\b",
+            "(\\d+(?:[.,]\\d+)?)\\s*(gram|gr|g|kilo|kg|oz|ml|su\\s*bardağı|su\\s*bardagi|bardak|fincan|kupa|yemek\\s*kaşığı|yemek\\s*kasigi|tatlı\\s*kaşığı|tatli\\s*kasigi|çay\\s*kaşığı|cay\\s*kasigi|kaşık|kasik|dilim|adet|tane|ölçek|olcek|porsiyon|tabak|kase|avuç|avuc|kutu|fileto|cups?|tbsps?|tsps?|slices?|pieces?|scoops?|cans?|bowls?)?\\b",
             RegexOption.IGNORE_CASE
         )
 
@@ -185,37 +181,41 @@ class NutritionParserEngine(
         var foodTerm = text
 
         if (match != null) {
-            quantity = match.groupValues[1].toFloatOrNull() ?: 1f
+            val numStr = match.groupValues[1].replace(',', '.')
+            quantity = numStr.toFloatOrNull() ?: 1f
             unit = match.groupValues.getOrNull(2)?.takeIf { it.isNotBlank() }
             foodTerm = text.removeRange(match.range).trim()
         }
 
-        // Clean extra prepositions like "of" ("1 cup of oats" -> "oats")
-        foodTerm = foodTerm.replace(Regex("^of\\s+"), "").replace(Regex("\\s+of\\s+"), " ").trim()
+        // Gereksiz bağlaçları temizle
+        foodTerm = foodTerm
+            .replace(Regex("^(tane|adet|porsiyon|dilim|kase|bardak|gram|gr)\\s+"), "")
+            .replace(Regex("^of\\s+"), "")
+            .replace(Regex("\\s+of\\s+"), " ")
+            .trim()
 
-        val foodDef = FoodDatabase.findBestMatch(foodTerm) ?: FoodDatabase.findBestMatch(text)
+        val foodDef = FoodDatabase.findBestMatch(foodTerm) ?: FoodDatabase.findBestMatch(text) ?: return null
 
-        if (foodDef == null) {
-            return null
-        }
+        val cleanUnit = unit?.lowercase()?.replace(" ", "") ?: ""
 
-        // Calculate gram weight equivalent
-        val gramWeight: Float = when (unit?.lowercase()) {
-            "g", "gram", "grams" -> quantity
-            "kg" -> quantity * 1000f
-            "oz", "ounce", "ounces" -> quantity * 28.35f
-            "lb", "lbs", "pound", "pounds" -> quantity * 453.59f
-            "ml" -> quantity * 1.0f // approx for liquids/water
-            "cup", "cups" -> quantity * foodDef.standardUnitWeightGrams
-            "tbsp", "tbsps", "tablespoon", "tablespoons" -> quantity * 15f
-            "tsp", "tsps", "teaspoon", "teaspoons" -> quantity * 5f
-            "slice", "slices" -> quantity * foodDef.standardUnitWeightGrams
-            "piece", "pieces", "egg", "eggs", "fillet", "fillets", "scoop", "scoops", "can", "cans", "bowl", "bowls", "handful", "handfuls" ->
+        // Gram cinsinden ağırlık hesapla
+        val gramWeight: Float = when {
+            cleanUnit in listOf("g", "gr", "gram", "grams") -> quantity
+            cleanUnit in listOf("kg", "kilo") -> quantity * 1000f
+            cleanUnit in listOf("oz", "ounce") -> quantity * 28.35f
+            cleanUnit in listOf("ml") -> quantity * 1.0f
+            cleanUnit in listOf("subardağı", "subardagi", "bardak", "cup", "cups") -> quantity * foodDef.standardUnitWeightGrams
+            cleanUnit in listOf("yemekkaşığı", "yemekkasigi", "tbsp", "tablespoon") -> quantity * 15f
+            cleanUnit in listOf("tatlıkaşığı", "tatlikasigi") -> quantity * 10f
+            cleanUnit in listOf("çaykaşığı", "caykasigi", "tsp", "teaspoon") -> quantity * 5f
+            cleanUnit in listOf("kaşık", "kasik") -> quantity * 15f
+            cleanUnit in listOf("dilim", "slice", "slices") -> quantity * foodDef.standardUnitWeightGrams
+            cleanUnit in listOf("kase", "tabak", "porsiyon", "fincan", "kupa", "avuç", "avuc", "kutu", "fileto", "ölçek", "olcek", "scoop", "scoops") ->
                 quantity * foodDef.standardUnitWeightGrams
+            cleanUnit in listOf("adet", "tane", "piece", "pieces") -> quantity * foodDef.standardUnitWeightGrams
             else -> {
-                // If no unit matched, but a quantity exists: assume unit is standard unit of food (e.g. 2 eggs -> 2 * 50g)
-                if (quantity > 20 && foodDef.standardUnit == "g") {
-                    quantity // assume user typed "150 chicken" -> 150 grams
+                if (quantity > 25 && foodDef.standardUnit == "g") {
+                    quantity // Örneğin "150 tavuk" yazılmışsa 150 gram varsay
                 } else {
                     quantity * foodDef.standardUnitWeightGrams
                 }
@@ -234,7 +234,7 @@ class NutritionParserEngine(
         } else if (gramWeight != 100f) {
             "${gramWeight.roundToInt()}g"
         } else {
-            "1 serving (100g)"
+            "1 porsiyon (100g)"
         }
 
         return ParsedFoodItem(
@@ -255,16 +255,16 @@ class NutritionParserEngine(
     private fun emptyResult(raw: String): ParsedNutritionResult {
         return ParsedNutritionResult(
             rawInput = raw,
-            suggestedName = "Custom Entry",
-            portionDescription = "1 serving",
+            suggestedName = "Özel Besin Girişi",
+            portionDescription = "1 porsiyon",
             totalCalories = 0,
             totalProtein = 0f,
             totalCarbs = 0f,
             totalFat = 0f,
             totalFiber = 0f,
             items = emptyList(),
-            engineUsed = "NutriLog Smart Rule Engine",
-            confidence = "None"
+            engineUsed = "caloree Akıllı Kural Motoru",
+            confidence = "Yok"
         )
     }
 }

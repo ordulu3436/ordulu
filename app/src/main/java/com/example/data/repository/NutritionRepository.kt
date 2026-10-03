@@ -73,8 +73,8 @@ class NutritionRepository(
         if (existingProfile == null) {
             val initialProfile = UserProfileEntity(
                 id = 1,
-                name = "Alex Rivera",
-                gender = "Male",
+                name = "Deniz Yılmaz",
+                gender = "Erkek",
                 age = 28,
                 heightCm = 178f,
                 weightKg = 75f,
@@ -89,18 +89,17 @@ class NutritionRepository(
             )
             profileDao.insertOrUpdateProfile(initialProfile)
 
-            // Seed realistic hourly meal logs for today to give immediate value
             val todayStr = getTodayDateString()
             val cal = Calendar.getInstance()
 
-            // 1. Breakfast at 8:30 AM
+            // 1. Kahvaltı - 08:30
             cal.set(Calendar.HOUR_OF_DAY, 8)
             cal.set(Calendar.MINUTE, 30)
             foodDao.insertEntry(
                 FoodEntryEntity(
-                    rawInputText = "2 boiled eggs and 1 slice whole wheat toast",
-                    foodName = "Whole Egg & Whole Wheat Toast",
-                    portionDesc = "2 eggs + 1 slice",
+                    rawInputText = "2 haşlanmış yumurta ve 1 dilim tam buğday ekmeği",
+                    foodName = "Haşlanmış Yumurta & Tam Buğday Ekmeği",
+                    portionDesc = "2 adet + 1 dilim",
                     calories = 225,
                     proteinGrams = 17.5f,
                     carbsGrams = 14.0f,
@@ -114,14 +113,14 @@ class NutritionRepository(
                 )
             )
 
-            // 2. Morning Coffee & Snack at 10:45 AM
+            // 2. Sabah Ara Öğün - 10:45
             cal.set(Calendar.HOUR_OF_DAY, 10)
             cal.set(Calendar.MINUTE, 45)
             foodDao.insertEntry(
                 FoodEntryEntity(
-                    rawInputText = "1 medium banana and 1 tbsp peanut butter",
-                    foodName = "Banana & Peanut Butter",
-                    portionDesc = "1 fruit + 1 tbsp",
+                    rawInputText = "1 orta boy muz ve 1 yemek kaşığı fıstık ezmesi",
+                    foodName = "Muz & Fıstık Ezmesi",
+                    portionDesc = "1 adet + 1 kaşık",
                     calories = 199,
                     proteinGrams = 5.1f,
                     carbsGrams = 30.8f,
@@ -135,19 +134,19 @@ class NutritionRepository(
                 )
             )
 
-            // 3. Lunch at 13:15 (1:15 PM)
+            // 3. Öğle Yemeği - 13:15
             cal.set(Calendar.HOUR_OF_DAY, 13)
             cal.set(Calendar.MINUTE, 15)
             foodDao.insertEntry(
                 FoodEntryEntity(
-                    rawInputText = "200g chicken breast and 1 cup cooked brown rice",
-                    foodName = "Chicken Breast & Cooked Brown Rice",
-                    portionDesc = "200g + 1 cup",
-                    calories = 548,
-                    proteinGrams = 67.1f,
-                    carbsGrams = 45.8f,
-                    fatGrams = 9.0f,
-                    fiberGrams = 3.5f,
+                    rawInputText = "200g tavuk göğsü ve 1 porsiyon pirinç pilavı",
+                    foodName = "Tavuk Göğsü & Pirinç Pilavı",
+                    portionDesc = "200g + 1 porsiyon",
+                    calories = 525,
+                    proteinGrams = 66.0f,
+                    carbsGrams = 42.3f,
+                    fatGrams = 7.7f,
+                    fiberGrams = 0.6f,
                     mealType = "LUNCH",
                     timestampMillis = cal.timeInMillis,
                     dateString = todayStr,
@@ -156,7 +155,7 @@ class NutritionRepository(
                 )
             )
 
-            // Seed some water logs
+            // Su tüketim kayıtları
             waterDao.insertWater(WaterEntryEntity(amountMl = 500, timestampMillis = System.currentTimeMillis() - 14000000, dateString = todayStr))
             waterDao.insertWater(WaterEntryEntity(amountMl = 500, timestampMillis = System.currentTimeMillis() - 7000000, dateString = todayStr))
             waterDao.insertWater(WaterEntryEntity(amountMl = 250, timestampMillis = System.currentTimeMillis() - 2000000, dateString = todayStr))
@@ -165,8 +164,8 @@ class NutritionRepository(
 
     companion object {
         private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        private val displayFormat = SimpleDateFormat("EEE, MMM d", Locale.US)
-        private val timeFormat = SimpleDateFormat("h:mm a", Locale.US)
+        private val displayFormat = SimpleDateFormat("d MMMM EEEE", Locale.forLanguageTag("tr-TR"))
+        private val timeFormat = SimpleDateFormat("HH:mm", Locale.forLanguageTag("tr-TR"))
 
         fun getTodayDateString(): String = dateFormat.format(Date())
 
@@ -179,8 +178,8 @@ class NutritionRepository(
                 val yesterday = dateFormat.format(cal.time)
 
                 when (dateStr) {
-                    today -> "Today (${displayFormat.format(date)})"
-                    yesterday -> "Yesterday (${displayFormat.format(date)})"
+                    today -> "Bugün (${displayFormat.format(date)})"
+                    yesterday -> "Dün (${displayFormat.format(date)})"
                     else -> displayFormat.format(date)
                 }
             } catch (_: Exception) {

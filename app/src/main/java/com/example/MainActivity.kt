@@ -70,10 +70,10 @@ enum class AppScreen(
     val unselectedIcon: ImageVector,
     val testTag: String
 ) {
-    DASHBOARD("Dashboard", Icons.Filled.Dashboard, Icons.Outlined.Dashboard, "tab_dashboard"),
-    HOURLY("Hourly", Icons.Filled.BarChart, Icons.Outlined.BarChart, "tab_hourly"),
-    PROFILE("Profile", Icons.Filled.Person, Icons.Outlined.Person, "tab_profile"),
-    ARCHITECTURE("Architecture", Icons.Filled.AccountTree, Icons.Outlined.AccountTree, "tab_architecture")
+    DASHBOARD("Özet", Icons.Filled.Dashboard, Icons.Outlined.Dashboard, "tab_dashboard"),
+    HOURLY("Saatlik", Icons.Filled.BarChart, Icons.Outlined.BarChart, "tab_hourly"),
+    PROFILE("Profil", Icons.Filled.Person, Icons.Outlined.Person, "tab_profile"),
+    ARCHITECTURE("Mimari", Icons.Filled.AccountTree, Icons.Outlined.AccountTree, "tab_architecture")
 }
 
 class MainActivity : ComponentActivity() {
@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NutriLogTheme {
-                NutriLogApp()
+                CaloreeApp()
             }
         }
     }
@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NutriLogApp(
+fun CaloreeApp(
     viewModel: NutriLogViewModel = viewModel()
 ) {
     val dashboardState by viewModel.dashboardState.collectAsStateWithLifecycle()
@@ -130,7 +130,7 @@ fun NutriLogApp(
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "NutriLog",
+                            text = "caloree",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -175,8 +175,8 @@ fun NutriLogApp(
                     containerColor = EmeraldPrimary,
                     contentColor = Color.White,
                     elevation = FloatingActionButtonDefaults.elevation(6.dp),
-                    icon = { Icon(imageVector = Icons.Default.Add, contentDescription = "Log Food") },
-                    text = { Text("Log Food", fontWeight = FontWeight.Bold) },
+                    icon = { Icon(imageVector = Icons.Default.Add, contentDescription = "Besin Ekle") },
+                    text = { Text("Besin Ekle", fontWeight = FontWeight.Bold) },
                     modifier = Modifier.testTag("fab_log_food")
                 )
             }
@@ -219,7 +219,7 @@ fun NutriLogApp(
             }
         }
 
-        // Natural Text Food Logging Bottom Sheet
+        // Doğal Metinle Besin Kaydetme Alt Paneli
         if (logSheetState.isOpen) {
             LogFoodSheet(
                 state = logSheetState,

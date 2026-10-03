@@ -1,7 +1,6 @@
 package com.example.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,14 +17,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DataObject
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.ViewCarousel
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -58,23 +53,23 @@ fun ArchitectureScreen(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 96.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Header
+        // Başlık
         item {
             Column {
                 Text(
-                    text = "System Architecture & Flows",
+                    text = "Sistem Mimarisi ve Akış Şemaları",
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Comprehensive specification of Screen Flows, Database Schema, and Input-Parsing Logic Pipeline",
+                    text = "Ekran Akışları, Room Veritabanı Şeması ve Doğal Metin Ayrıştırma Hattı Spesifikasyonu",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
 
-        // Section 1: Screen Flows
+        // Bölüm 1: Ekran Akışları
         item {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -84,50 +79,50 @@ fun ArchitectureScreen(
                 Column(modifier = Modifier.padding(18.dp)) {
                     SectionHeader(
                         icon = Icons.Default.ViewCarousel,
-                        title = "1. Application Screen Flows",
-                        subtitle = "State-driven navigation and user journeys"
+                        title = "1. Uygulama Ekran Akışları",
+                        subtitle = "Kullanıcı deneyimi ve durum bazlı gezinme yolları"
                     )
 
                     Spacer(modifier = Modifier.height(14.dp))
 
                     FlowStepCard(
-                        step = "FLOW A",
-                        title = "Daily Progress & Log Flow",
-                        description = "Launch App ➔ Load Selected Date State ➔ Render Hero Calorie Gauge & Macro Bars ➔ Render Hourly Timeline ➔ Group Foods by Meal Category.",
+                        step = "AKIŞ A",
+                        title = "Günlük İlerleme & Takip Akışı",
+                        description = "Uygulama Açılışı ➔ Seçili Gün Durumunu Yükle ➔ Halka Kalori Göstergesi & Makro Çubuklarını Çiz ➔ 24 Saatlik Çubuk Grafiğini Çiz ➔ Öğünlere Göre Grupla.",
                         badgeColor = EmeraldPrimary
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
 
                     FlowStepCard(
-                        step = "FLOW B",
-                        title = "Text Input & Calorie Calculation Flow",
-                        description = "Tap '+ Log Food' / Meal ➔ Open Bottom Sheet Modal ➔ User types natural text (e.g. '200g chicken breast') ➔ Dual Engine Parsing (Gemini AI or Smart NLP Regex) ➔ Real-time Macro Extraction Preview ➔ Editable Review ➔ Commit to Room DB.",
+                        step = "AKIŞ B",
+                        title = "Metinle Besin & Kalori Hesaplama Akışı",
+                        description = "'+ Besin Ekle' Butonuna Bas ➔ Modal Alt Panel Açılır ➔ Doğal Metin Yazılır (Örn: '200g tavuk göğsü') ➔ İkili Motor (Gemini YZ veya Akıllı Kural Motoru) ➔ Makrolar Ayrıştırılır ➔ Düzenlenebilir Önizleme ➔ Veritabanına Kaydet.",
                         badgeColor = CalorieOrange
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
 
                     FlowStepCard(
-                        step = "FLOW C",
-                        title = "Hourly Analytics & Eating Window Flow",
-                        description = "Navigate to 'Hourly Logs' tab ➔ Aggregate 24-hr entries by hour ➔ Calculate Fasting / Eating Window ➔ Display chronological timestamped entries with macro tags.",
+                        step = "AKIŞ C",
+                        title = "Saatlik Analiz & Beslenme Penceresi Akışı",
+                        description = "'Saatlik' Sekmesine Geç ➔ Günün 24 saatini kaloriye göre grupla ➔ İlk ve son öğün arasından Günlük Beslenme Penceresini hesapla ➔ Kronolojik zaman damgalı kartları listele.",
                         badgeColor = ProteinBlue
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
 
                     FlowStepCard(
-                        step = "FLOW D",
-                        title = "User Profile & TDEE Setup Flow",
-                        description = "Navigate to 'Profile' ➔ Enter Biometrics (Weight, Height, Age, Gender) ➔ Select Activity Level & Goal ➔ Compute Mifflin-St Jeor BMR & TDEE ➔ Pick Macro Preset ➔ Persist to DB.",
+                        step = "AKIŞ D",
+                        title = "Profil & Biyometrik Hedef Belirleme",
+                        description = "'Profil' Sekmesine Geç ➔ Kilo, Boy, Yaş, Cinsiyet Gir ➔ Aktivite ve Hedef Seç ➔ Mifflin-St Jeor ile BMR & TDEE hesapla ➔ Makro şablonu belirle ➔ Veritabanına kaydet.",
                         badgeColor = Color(0xFF8B5CF6)
                     )
                 }
             }
         }
 
-        // Section 2: Input-Parsing Logic Flow
+        // Bölüm 2: Metin Ayrıştırma Mantık Hattı
         item {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -137,62 +132,62 @@ fun ArchitectureScreen(
                 Column(modifier = Modifier.padding(18.dp)) {
                     SectionHeader(
                         icon = Icons.Default.AutoAwesome,
-                        title = "2. Input-Parsing Logic Flow",
-                        subtitle = "End-to-end natural language nutrition extraction pipeline"
+                        title = "2. Doğal Metin Ayrıştırma Mantık Hattı",
+                        subtitle = "Metinden besin, miktar ve makro çıkarma adımları"
                     )
 
                     Spacer(modifier = Modifier.height(14.dp))
 
                     PipelineStage(
                         number = "01",
-                        title = "Text Normalization & Delimiter Splitting",
-                        detail = "Splits compound phrases by 'and', 'with', '+', ',', 'plus'. Replaces word numbers ('two' ➔ 2, 'half' ➔ 0.5, 'a/an' ➔ 1)."
+                        title = "Metin Normalizasyonu & Bağlaç Ayrımı",
+                        detail = "Bileşik cümleler 've', 'ile', '+', ',', 'yanında' kelimelerine göre alt ögelere bölünür. Sayı kelimeleri ('iki' ➔ 2, 'yarım' ➔ 0.5, 'bir' ➔ 1) sayısala dönüştürülür."
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     PipelineStage(
                         number = "02",
-                        title = "AI Engine Branch (Gemini 3.5 Flash)",
-                        detail = "If API key is valid, sends structured prompt to generativelanguage.googleapis.com REST endpoint. Receives strict JSON candidate with items array, calories, and macros."
+                        title = "Yapay Zeka Motoru (Gemini 3.5 Flash)",
+                        detail = "API anahtarı mevcutsa, doğrudan REST API ile yapılandırılmış JSON istemi gönderilir. Besin adı, porsiyon, kalori ve makrolar yapılandırılmış formatta alınır."
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     PipelineStage(
                         number = "03",
-                        title = "Smart NLP Rule Engine (Offline Fallback)",
-                        detail = "Regex extracts quantities and units (g, kg, oz, cup, tbsp, slice, piece, scoop, bowl). Fuzzy & keyword token matcher scans 150+ food definitions."
+                        title = "Akıllı Kural Motoru (Çevrimdışı Yedek)",
+                        detail = "Regex deseni miktar ve birimleri (gram, dilim, adet, ölçek, porsiyon, kase, yemek kaşığı vb.) yakalar. 150+ besinli yerel veri tabanında eşleşme aranır."
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     PipelineStage(
                         number = "04",
-                        title = "Unit-to-Gram Weight Conversion",
-                        detail = "Maps unit weights: 1 egg = 50g, 1 slice bread = 32g, 1 cup cooked rice = 158g, 1 scoop whey = 30g, 1 tbsp peanut butter = 16g."
+                        title = "Ölçü Biriminden Grama Dönüştürme",
+                        detail = "Standart gram ağırlıkları uygulanır: 1 yumurta = 50g, 1 dilim ekmek = 32g, 1 porsiyon pirinç = 150g, 1 ölçek whey = 30g, 1 kaşık fıstık ezmesi = 16g."
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     PipelineStage(
                         number = "05",
-                        title = "Macro & Calorie Computation",
-                        detail = "Calculates Calories = (calPer100g * grams / 100), Protein = (protPer100g * grams / 100), etc. Aggregates composite meal totals."
+                        title = "Makro ve Kalori Matematiksel Hesabı",
+                        detail = "Kalori = (100g_kalori * gram / 100), Protein = (100g_protein * gram / 100) formülüyle tam değerler hesaplanır ve bileşik yemekler toplanır."
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     PipelineStage(
                         number = "06",
-                        title = "Timestamp & Hourly Tagging",
-                        detail = "Captures exact Unix Epoch timestamp, extracts hourOfDay (0..23) and local dateString ('yyyy-MM-dd') for instant Room indexing."
+                        title = "Zaman Damgası ve Saat İndeksleme",
+                        detail = "Tam Unix Epoch milisaniyesi, günün saati (0..23) ve ISO tarih ('yyyy-MM-dd') formatında etiketlenerek Room DB'ye kaydedilir."
                     )
                 }
             }
         }
 
-        // Section 3: Database Schema
+        // Bölüm 3: Veritabanı Şeması
         item {
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -202,30 +197,30 @@ fun ArchitectureScreen(
                 Column(modifier = Modifier.padding(18.dp)) {
                     SectionHeader(
                         icon = Icons.Default.Storage,
-                        title = "3. Room Database Schema",
-                        subtitle = "SQLite entities, relationships, and index strategy"
+                        title = "3. Room SQLite Veritabanı Şeması",
+                        subtitle = "Tablolar, alanlar ve dizinleme (index) stratejisi"
                     )
 
                     Spacer(modifier = Modifier.height(14.dp))
 
                     SchemaTableCard(
                         tableName = "food_entries",
-                        description = "Stores every logged food item, input text, parsed nutrients, and timestamps",
+                        description = "Kaydedilen her besin girişini, makrolarını ve saatlik zaman damgalarını tutar",
                         columns = listOf(
-                            "id: Long (PK, autoGenerate)" to "Unique primary key",
-                            "rawInputText: String" to "Original text (e.g. '200g chicken breast')",
-                            "foodName: String" to "Normalized name (e.g. 'Chicken Breast')",
-                            "portionDesc: String" to "Display portion (e.g. '200g')",
-                            "calories: Int" to "Total calculated kilocalories",
-                            "proteinGrams: Float" to "Protein in grams",
-                            "carbsGrams: Float" to "Carbohydrates in grams",
-                            "fatGrams: Float" to "Fats in grams",
-                            "fiberGrams: Float" to "Dietary fiber in grams",
+                            "id: Long (PK, autoGenerate)" to "Benzersiz birincil anahtar",
+                            "rawInputText: String" to "Kullanıcının yazdığı metin (Örn: '200g tavuk')",
+                            "foodName: String" to "Ayrıştırılan besin adı",
+                            "portionDesc: String" to "Porsiyon/miktar açıklaması (Örn: '200g')",
+                            "calories: Int" to "Hesaplanan kilokalori (kcal)",
+                            "proteinGrams: Float" to "Gram cinsinden protein",
+                            "carbsGrams: Float" to "Gram cinsinden karbonhidrat",
+                            "fatGrams: Float" to "Gram cinsinden yağ",
+                            "fiberGrams: Float" to "Diyet lifi (g)",
                             "mealType: String" to "BREAKFAST | LUNCH | DINNER | SNACK",
-                            "timestampMillis: Long" to "Exact Unix epoch timestamp",
-                            "dateString: String (Indexed)" to "ISO 'yyyy-MM-dd' for rapid date filtering",
-                            "hourOfDay: Int (Indexed)" to "0..23 for hourly intake aggregations",
-                            "parsedByAi: Boolean" to "Flag indicating Gemini AI vs Rule Engine"
+                            "timestampMillis: Long" to "Tam milisaniye zaman damgası",
+                            "dateString: String (İndeksli)" to "'yyyy-MM-dd' hızlı tarih filtreleme",
+                            "hourOfDay: Int (İndeksli)" to "0..23 saatlik histogram gruplama",
+                            "parsedByAi: Boolean" to "Yapay Zeka ayrıştırma bayrağı"
                         )
                     )
 
@@ -233,21 +228,21 @@ fun ArchitectureScreen(
 
                     SchemaTableCard(
                         tableName = "user_profile",
-                        description = "Stores user biometrics, calculated BMR, TDEE, and daily macro targets",
+                        description = "Biyometrik verileri, BMR, TDEE ve günlük makro hedeflerini tutar",
                         columns = listOf(
-                            "id: Int (PK = 1)" to "Single-row singleton user record",
-                            "name: String" to "User's display name",
-                            "gender: String" to "Male | Female | Other",
-                            "age: Int" to "Age in years",
-                            "heightCm: Float" to "Height in centimeters",
-                            "weightKg: Float" to "Weight in kilograms",
-                            "activityLevel: String" to "SEDENTARY..VERY_ACTIVE",
-                            "goalType: String" to "LOSE_FAST..GAIN_FAST",
-                            "dailyCalorieTarget: Int" to "Calculated TDEE adjusted budget",
-                            "proteinGramsTarget: Int" to "Target protein grams",
-                            "carbsGramsTarget: Int" to "Target carbs grams",
-                            "fatGramsTarget: Int" to "Target fat grams",
-                            "waterMlTarget: Int" to "Daily hydration goal (ml)"
+                            "id: Int (PK = 1)" to "Tekil kullanıcı kayıt satırı",
+                            "name: String" to "Kullanıcı adı soyadı",
+                            "gender: String" to "Erkek | Kadın | Diğer",
+                            "age: Int" to "Yaş",
+                            "heightCm: Float" to "Boy (cm)",
+                            "weightKg: Float" to "Kilo (kg)",
+                            "activityLevel: String" to "SEDENTARY..VERY_ACTIVE aktivite düzeyi",
+                            "goalType: String" to "LOSE_FAST..GAIN_FAST kilo hedefi",
+                            "dailyCalorieTarget: Int" to "Hesaplanan günlük kalori bütçesi",
+                            "proteinGramsTarget: Int" to "Günlük hedef protein (g)",
+                            "carbsGramsTarget: Int" to "Günlük hedef karbonhidrat (g)",
+                            "fatGramsTarget: Int" to "Günlük hedef yağ (g)",
+                            "waterMlTarget: Int" to "Günlük su tüketim hedefi (ml)"
                         )
                     )
 
@@ -255,12 +250,12 @@ fun ArchitectureScreen(
 
                     SchemaTableCard(
                         tableName = "water_entries",
-                        description = "Stores timestamped hydration logs",
+                        description = "Gün içinde tüketilen su miktarlarını ve zamanını tutar",
                         columns = listOf(
-                            "id: Long (PK, autoGenerate)" to "Primary key",
-                            "amountMl: Int" to "Milliliters consumed (e.g. 250, 500)",
-                            "timestampMillis: Long" to "Time logged",
-                            "dateString: String (Indexed)" to "ISO date string"
+                            "id: Long (PK, autoGenerate)" to "Birincil anahtar",
+                            "amountMl: Int" to "Tüketilen mililitre (Örn: 250, 500)",
+                            "timestampMillis: Long" to "Kayıt zamanı",
+                            "dateString: String (İndeksli)" to "İlgili günün tarihi"
                         )
                     )
                 }
@@ -396,7 +391,7 @@ private fun SchemaTableCard(
                 Icon(imageVector = Icons.Default.DataObject, contentDescription = null, tint = EmeraldPrimary, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Table: $tableName",
+                    text = "Tablo: $tableName",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace

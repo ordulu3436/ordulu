@@ -48,7 +48,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -84,7 +83,7 @@ fun DashboardScreen(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 96.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // 1. Date Navigator Bar
+        // 1. Tarih Gezintisi
         item {
             DateNavigatorHeader(
                 displayDate = state.displayDate,
@@ -94,7 +93,7 @@ fun DashboardScreen(
             )
         }
 
-        // 2. Hero Daily Calorie Progress Card
+        // 2. Ana Günlük Kalori İlerleme Kartı
         item {
             ElevatedCard(
                 modifier = Modifier
@@ -119,12 +118,20 @@ fun DashboardScreen(
                     ) {
                         Column {
                             Text(
-                                text = "Daily Calorie Budget",
+                                text = "Günlük Kalori Bütçesi",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.onSurface
                             )
+                            val goalLabel = when (state.profile.goalType) {
+                                "LOSE_FAST" -> "Hızlı Yağ Yakımı Hedefi"
+                                "LOSE_MILD" -> "Hafif Kilo Verme Hedefi"
+                                "MAINTAIN" -> "Kilo Koruma Hedefi"
+                                "GAIN_MILD" -> "Temiz Hacim Hedefi"
+                                "GAIN_FAST" -> "Kilo Kazanımı Hedefi"
+                                else -> "Kilo Koruma Hedefi"
+                            }
                             Text(
-                                text = "${state.profile.goalType.replace('_', ' ').lowercase().replaceFirstChar { it.uppercase() }} goal",
+                                text = goalLabel,
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -135,7 +142,7 @@ fun DashboardScreen(
                             color = EmeraldPrimary.copy(alpha = 0.12f)
                         ) {
                             Text(
-                                text = "${state.entries.size} meals logged",
+                                text = "${state.entries.size} besin girildi",
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = EmeraldPrimary,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -153,7 +160,7 @@ fun DashboardScreen(
             }
         }
 
-        // 3. Macro Breakdown Card
+        // 3. Makro Besin Dağılım Kartı
         item {
             Card(
                 modifier = Modifier
@@ -173,19 +180,18 @@ fun DashboardScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Macro Nutrients",
+                            text = "Makro Besinler",
                             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
-                        // Calorie distribution pills
                         val totalMacroCals = (state.totalProtein * 4 + state.totalCarbs * 4 + state.totalFat * 9).coerceAtLeast(1f)
                         val pPct = ((state.totalProtein * 4 / totalMacroCals) * 100).roundToInt()
                         val cPct = ((state.totalCarbs * 4 / totalMacroCals) * 100).roundToInt()
                         val fPct = ((state.totalFat * 9 / totalMacroCals) * 100).roundToInt()
 
                         Text(
-                            text = "Ratio: ${pPct}P / ${cPct}C / ${fPct}F",
+                            text = "Oran: %$pPct Protein / %$cPct Karb / %$fPct Yağ",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -203,7 +209,7 @@ fun DashboardScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     MacroProgressBar(
-                        name = "Carbs",
+                        name = "Karbonhidrat",
                         consumedGrams = state.totalCarbs,
                         targetGrams = state.profile.carbsGramsTarget,
                         color = CarbsAmber
@@ -212,7 +218,7 @@ fun DashboardScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     MacroProgressBar(
-                        name = "Fat",
+                        name = "Yağ",
                         consumedGrams = state.totalFat,
                         targetGrams = state.profile.fatGramsTarget,
                         color = FatPink
@@ -221,7 +227,7 @@ fun DashboardScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     MacroProgressBar(
-                        name = "Dietary Fiber",
+                        name = "Diyet Lifi",
                         consumedGrams = state.totalFiber,
                         targetGrams = 30,
                         color = FiberGreen
@@ -230,7 +236,7 @@ fun DashboardScreen(
             }
         }
 
-        // 4. Hourly Intake Distribution Chart
+        // 4. Saatlik Dağılım Kartı
         item {
             Card(
                 modifier = Modifier
@@ -246,7 +252,7 @@ fun DashboardScreen(
             }
         }
 
-        // 5. Water / Hydration Tracker Card
+        // 5. Su Takibi Kartı
         item {
             Card(
                 modifier = Modifier
@@ -275,7 +281,7 @@ fun DashboardScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.LocalDrink,
-                                    contentDescription = "Water",
+                                    contentDescription = "Su",
                                     tint = WaterBlue,
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -283,7 +289,7 @@ fun DashboardScreen(
                             Spacer(modifier = Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    text = "Hydration",
+                                    text = "Günlük Su Takibi",
                                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
                                 )
                                 Text(
@@ -328,7 +334,7 @@ fun DashboardScreen(
             }
         }
 
-        // 6. Meal Sections Header
+        // 6. Öğünler Başlığı
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -336,7 +342,7 @@ fun DashboardScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Meals & Timestamps",
+                    text = "Öğünler & Zaman Damgaları",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -350,15 +356,15 @@ fun DashboardScreen(
                 ) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Log Food", style = MaterialTheme.typography.labelMedium)
+                    Text("Besin Ekle", style = MaterialTheme.typography.labelMedium)
                 }
             }
         }
 
-        // Meal Group Cards: Breakfast, Lunch, Dinner, Snack
+        // Öğün Kartları
         item {
             MealGroupCard(
-                mealName = "Breakfast",
+                mealName = "Kahvaltı",
                 entries = state.breakfastEntries,
                 onAddClick = { onOpenLogFood("BREAKFAST") },
                 onDeleteEntry = onDeleteEntry
@@ -367,7 +373,7 @@ fun DashboardScreen(
 
         item {
             MealGroupCard(
-                mealName = "Lunch",
+                mealName = "Öğle Yemeği",
                 entries = state.lunchEntries,
                 onAddClick = { onOpenLogFood("LUNCH") },
                 onDeleteEntry = onDeleteEntry
@@ -376,7 +382,7 @@ fun DashboardScreen(
 
         item {
             MealGroupCard(
-                mealName = "Dinner",
+                mealName = "Akşam Yemeği",
                 entries = state.dinnerEntries,
                 onAddClick = { onOpenLogFood("DINNER") },
                 onDeleteEntry = onDeleteEntry
@@ -385,7 +391,7 @@ fun DashboardScreen(
 
         item {
             MealGroupCard(
-                mealName = "Snacks",
+                mealName = "Ara Öğünler",
                 entries = state.snackEntries,
                 onAddClick = { onOpenLogFood("SNACK") },
                 onDeleteEntry = onDeleteEntry
@@ -418,7 +424,7 @@ private fun DateNavigatorHeader(
             IconButton(onClick = onPreviousDay, modifier = Modifier.testTag("prev_day_button")) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Previous Day"
+                    contentDescription = "Önceki Gün"
                 )
             }
 
@@ -443,7 +449,7 @@ private fun DateNavigatorHeader(
             IconButton(onClick = onNextDay, modifier = Modifier.testTag("next_day_button")) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "Next Day"
+                    contentDescription = "Sonraki Gün"
                 )
             }
         }
@@ -469,7 +475,7 @@ private fun MealGroupCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-            // Header Row
+            // Başlık Satırı
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -510,23 +516,23 @@ private fun MealGroupCard(
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = onAddClick, modifier = Modifier.size(32.dp)) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add Food", tint = EmeraldPrimary)
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "Besin Ekle", tint = EmeraldPrimary)
                     }
                     IconButton(onClick = { expanded = !expanded }, modifier = Modifier.size(32.dp)) {
                         Icon(
                             imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                            contentDescription = if (expanded) "Collapse" else "Expand"
+                            contentDescription = if (expanded) "Daralt" else "Genişlet"
                         )
                     }
                 }
             }
 
-            // Entries List
+            // Besin Listesi
             AnimatedVisibility(visible = expanded) {
                 Column(modifier = Modifier.padding(top = 10.dp)) {
                     if (entries.isEmpty()) {
                         Text(
-                            text = "No food logged for $mealName yet.",
+                            text = "$mealName için henüz besin kaydedilmedi.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
                             modifier = Modifier.padding(vertical = 8.dp)
@@ -577,7 +583,7 @@ private fun FoodItemRow(
                             color = EmeraldPrimary.copy(alpha = 0.15f)
                         ) {
                             Text(
-                                text = "AI",
+                                text = "YZ",
                                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, fontWeight = FontWeight.Bold),
                                 color = EmeraldPrimary,
                                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
@@ -592,7 +598,7 @@ private fun FoodItemRow(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "${entry.proteinGrams}g P • ${entry.carbsGrams}g C • ${entry.fatGrams}g F",
+                    text = "${entry.proteinGrams}g P • ${entry.carbsGrams}g K • ${entry.fatGrams}g Y",
                     style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
                     color = EmeraldPrimary
                 )
@@ -607,7 +613,7 @@ private fun FoodItemRow(
                 IconButton(onClick = onDelete, modifier = Modifier.size(32.dp)) {
                     Icon(
                         imageVector = Icons.Default.DeleteOutline,
-                        contentDescription = "Delete",
+                        contentDescription = "Sil",
                         tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
                         modifier = Modifier.size(18.dp)
                     )

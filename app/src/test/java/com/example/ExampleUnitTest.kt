@@ -9,11 +9,11 @@ import org.junit.Test
 class ExampleUnitTest {
 
     @Test
-    fun testNutritionParserSingleItem() {
+    fun testNutritionParserTurkishSingleItem() {
         val parser = NutritionParserEngine()
-        val result = parser.parseWithRuleEngine("200g chicken breast")
+        val result = parser.parseWithRuleEngine("200g tavuk göğsü")
 
-        assertEquals("Chicken Breast", result.suggestedName)
+        assertEquals("Tavuk Göğsü", result.suggestedName)
         assertEquals(330, result.totalCalories)
         assertEquals(62.0f, result.totalProtein, 0.5f)
         assertEquals(0.0f, result.totalCarbs, 0.5f)
@@ -21,9 +21,9 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testNutritionParserCompositeMeal() {
+    fun testNutritionParserTurkishCompositeMeal() {
         val parser = NutritionParserEngine()
-        val result = parser.parseWithRuleEngine("2 eggs and 1 slice whole wheat bread")
+        val result = parser.parseWithRuleEngine("2 yumurta ve 1 dilim tam buğday ekmeği")
 
         assertTrue(result.items.size >= 2)
         assertTrue(result.totalCalories > 200)

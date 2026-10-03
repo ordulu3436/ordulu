@@ -60,7 +60,6 @@ import com.example.ui.theme.CalorieOrange
 import com.example.ui.theme.CarbsAmber
 import com.example.ui.theme.EmeraldPrimary
 import com.example.ui.theme.FatPink
-import com.example.ui.theme.FiberGreen
 import com.example.ui.theme.ProteinBlue
 import com.example.ui.viewmodel.LogSheetState
 
@@ -90,7 +89,7 @@ fun LogFoodSheet(
                 .padding(horizontal = 20.dp, vertical = 8.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            // Header
+            // Başlık
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -106,7 +105,7 @@ fun LogFoodSheet(
                     ) {
                         Icon(
                             imageVector = Icons.Default.AutoAwesome,
-                            contentDescription = "AI Parser",
+                            contentDescription = "Yapay Zeka Ayrıştırıcı",
                             tint = EmeraldPrimary,
                             modifier = Modifier.size(20.dp)
                         )
@@ -114,56 +113,61 @@ fun LogFoodSheet(
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "Natural Text Calorie Parser",
+                            text = "Metinle Besin & Kalori Hesapla",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Type any meal description with weights or portions",
+                            text = "Öğününüzü gramaj veya porsiyonuyla serbestçe yazın",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
                 IconButton(onClick = onDismiss, modifier = Modifier.testTag("close_sheet_button")) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = "Close")
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "Kapat")
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Meal Selector Chips
+            // Öğün Seçim Çipleri
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                listOf("BREAKFAST", "LUNCH", "DINNER", "SNACK").forEach { meal ->
-                    val isSelected = state.mealType.equals(meal, ignoreCase = true)
+                listOf(
+                    "BREAKFAST" to "Kahvaltı",
+                    "LUNCH" to "Öğle Yemeği",
+                    "DINNER" to "Akşam Yemeği",
+                    "SNACK" to "Ara Öğün"
+                ).forEach { (mealKey, mealTitle) ->
+                    val isSelected = state.mealType.equals(mealKey, ignoreCase = true)
                     FilterChip(
                         selected = isSelected,
-                        onClick = { onMealTypeChange(meal) },
-                        label = { Text(meal.lowercase().replaceFirstChar { it.uppercase() }) },
+                        onClick = { onMealTypeChange(mealKey) },
+                        label = { Text(mealTitle) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = EmeraldPrimary,
                             selectedLabelColor = Color.White
                         ),
-                        modifier = Modifier.testTag("chip_meal_${meal.lowercase()}")
+                        modifier = Modifier.testTag("chip_meal_${mealKey.lowercase()}")
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Text Input Box
+            // Doğal Metin Giriş Alanı
             OutlinedTextField(
                 value = state.inputText,
                 onValueChange = onQueryChange,
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("food_input_text_field"),
-                placeholder = { Text("e.g., 200g chicken breast and 1 cup brown rice") },
+                placeholder = { Text("Örn: 200g tavuk göğsü ve 1 porsiyon pirinç pilavı") },
                 singleLine = false,
                 maxLines = 3,
                 keyboardOptions = KeyboardOptions(
@@ -176,7 +180,7 @@ fun LogFoodSheet(
                         IconButton(onClick = onParseRequested, modifier = Modifier.testTag("submit_parse_button")) {
                             Icon(
                                 imageVector = Icons.Default.AutoAwesome,
-                                contentDescription = "Parse Now",
+                                contentDescription = "Şimdi Hesapla",
                                 tint = EmeraldPrimary
                             )
                         }
@@ -191,9 +195,9 @@ fun LogFoodSheet(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Suggested Sample Quick Chips
+            // Hızlı Örnek Çipleri
             Text(
-                text = "Quick Examples:",
+                text = "Hızlı Örnekler:",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -205,11 +209,12 @@ fun LogFoodSheet(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 val samples = listOf(
-                    "200g chicken breast",
-                    "2 eggs and 1 slice wheat toast",
-                    "1 scoop whey in 250ml milk",
-                    "1 medium apple",
-                    "150g grilled salmon with broccoli"
+                    "200g tavuk göğsü",
+                    "2 haşlanmış yumurta ve 1 dilim ekmek",
+                    "1 ölçek whey protein ve 250ml süt",
+                    "1 orta boy muz ve 1 kaşık fıstık ezmesi",
+                    "1 orta boy elma",
+                    "150g somon balığı ve brokoli"
                 )
                 samples.forEach { sample ->
                     Surface(
@@ -232,7 +237,7 @@ fun LogFoodSheet(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Parse / Calculate Trigger Button
+            // Hesapla Butonu
             Button(
                 onClick = onParseRequested,
                 modifier = Modifier
@@ -249,24 +254,24 @@ fun LogFoodSheet(
                         strokeWidth = 2.dp
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Calculating nutrition...")
+                    Text("Besin değerleri hesaplanıyor...")
                 } else {
                     Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Calculate Nutrition")
+                    Text("Besin Değerlerini Hesapla")
                 }
             }
 
-            // Results Section
+            // Ayrıştırma ve Hesaplama Sonuçları
             AnimatedVisibility(
                 visible = state.parsedResult != null || state.calories.isNotBlank(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 Column(modifier = Modifier.padding(top = 16.dp)) {
-                    // Engine Badge
-                    val engineName = state.parsedResult?.engineUsed ?: "NutriLog Smart Rule Engine"
-                    val confidence = state.parsedResult?.confidence ?: "Estimated"
+                    // Motor Rozeti
+                    val engineName = state.parsedResult?.engineUsed ?: "caloree Akıllı Kural Motoru"
+                    val confidence = state.parsedResult?.confidence ?: "Hesaplandı"
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -277,7 +282,7 @@ fun LogFoodSheet(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "⚡ Engine: $engineName",
+                            text = "⚡ Motor: $engineName",
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = EmeraldPrimary
                         )
@@ -290,7 +295,7 @@ fun LogFoodSheet(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Editable Food Name & Portion
+                    // Düzenlenebilir Başlık ve Porsiyon
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -298,7 +303,7 @@ fun LogFoodSheet(
                         OutlinedTextField(
                             value = state.foodName,
                             onValueChange = { onFieldChange(it, null, null, null, null, null, null) },
-                            label = { Text("Food Title") },
+                            label = { Text("Besin Adı") },
                             modifier = Modifier
                                 .weight(1.5f)
                                 .testTag("food_name_field"),
@@ -307,7 +312,7 @@ fun LogFoodSheet(
                         OutlinedTextField(
                             value = state.portionDesc,
                             onValueChange = { onFieldChange(null, null, null, null, null, null, it) },
-                            label = { Text("Portion") },
+                            label = { Text("Porsiyon / Miktar") },
                             modifier = Modifier
                                 .weight(1f)
                                 .testTag("food_portion_field"),
@@ -317,13 +322,13 @@ fun LogFoodSheet(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Macro Stat Cards (Editable)
+                    // Makro Değer Kartları (Düzenlenebilir)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         MacroInputPill(
-                            label = "Calories",
+                            label = "Kalori",
                             value = state.calories,
                             unit = "kcal",
                             color = CalorieOrange,
@@ -339,7 +344,7 @@ fun LogFoodSheet(
                             onValueChange = { onFieldChange(null, null, it, null, null, null, null) }
                         )
                         MacroInputPill(
-                            label = "Carbs",
+                            label = "Karb",
                             value = state.carbs,
                             unit = "g",
                             color = CarbsAmber,
@@ -347,7 +352,7 @@ fun LogFoodSheet(
                             onValueChange = { onFieldChange(null, null, null, it, null, null, null) }
                         )
                         MacroInputPill(
-                            label = "Fat",
+                            label = "Yağ",
                             value = state.fat,
                             unit = "g",
                             color = FatPink,
@@ -356,11 +361,11 @@ fun LogFoodSheet(
                         )
                     }
 
-                    // Detected Items Sub-Breakdown (if composite meal)
+                    // Bileşik Besin Malzeme Detayı
                     if ((state.parsedResult?.items?.size ?: 0) > 1) {
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "Detected Ingredients Breakdown:",
+                            text = "Ayrıştırılan Malzemeler:",
                             style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -391,7 +396,7 @@ fun LogFoodSheet(
                                         )
                                     }
                                     Text(
-                                        text = "${subItem.calories} kcal • ${subItem.proteinGrams}g P • ${subItem.carbsGrams}g C • ${subItem.fatGrams}g F",
+                                        text = "${subItem.calories} kcal • ${subItem.proteinGrams}g P • ${subItem.carbsGrams}g K • ${subItem.fatGrams}g Y",
                                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                                         color = EmeraldPrimary
                                     )
@@ -402,7 +407,7 @@ fun LogFoodSheet(
 
                     Spacer(modifier = Modifier.height(14.dp))
 
-                    // Hourly Timestamp Adjuster
+                    // Kayıt Saati Ayarlayıcı
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -412,7 +417,7 @@ fun LogFoodSheet(
                             Icon(imageVector = Icons.Default.Schedule, contentDescription = null, tint = EmeraldPrimary, modifier = Modifier.size(18.dp))
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = "Log Hour:",
+                                text = "Kayıt Saati:",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
                             )
                         }
@@ -430,7 +435,7 @@ fun LogFoodSheet(
                                     modifier = Modifier.clickable { onHourChange(h) }
                                 ) {
                                     Text(
-                                        text = formatHourShort(h),
+                                        text = String.format("%02d:00", h),
                                         style = MaterialTheme.typography.labelSmall.copy(
                                             color = if (isHSelected) Color.White else MaterialTheme.colorScheme.onSurface
                                         ),
@@ -443,7 +448,7 @@ fun LogFoodSheet(
 
                     Spacer(modifier = Modifier.height(18.dp))
 
-                    // Final Log Button
+                    // Günlüğe Kaydet Butonu
                     Button(
                         onClick = onCommit,
                         modifier = Modifier
@@ -456,7 +461,7 @@ fun LogFoodSheet(
                         Icon(imageVector = Icons.Default.Check, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Save Entry to Diary",
+                            text = "Öğünü Günlüğe Kaydet",
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                         )
                     }
@@ -508,14 +513,5 @@ private fun MacroInputPill(
             )
             Text(text = unit, style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp), color = color)
         }
-    }
-}
-
-private fun formatHourShort(h: Int): String {
-    return when {
-        h == 0 -> "12A"
-        h == 12 -> "12P"
-        h < 12 -> "${h}A"
-        else -> "${h - 12}P"
     }
 }
