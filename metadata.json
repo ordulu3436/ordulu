@@ -1,0 +1,6 @@
+{
+  "name": "NutriLog",
+  "description": "Calorie and macro tracking app that calculates nutrition from natural text inputs, logging hourly and daily with timestamps, macro breakdowns, and TDEE profile setup.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
